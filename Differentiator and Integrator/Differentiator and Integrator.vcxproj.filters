@@ -33,5 +33,11 @@
     <ClInclude Include="Variable.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Product.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Exponent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -111,8 +111,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Atom.h" />
+    <ClInclude Include="Exponent.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Number.h" />
+    <ClInclude Include="Product.h" />
     <ClInclude Include="Sum.h" />
     <ClInclude Include="Term.h" />
     <ClInclude Include="Variable.h" />
