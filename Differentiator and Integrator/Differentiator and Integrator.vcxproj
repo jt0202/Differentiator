@@ -113,11 +113,19 @@
     <ClInclude Include="Atom.h" />
     <ClInclude Include="Exponent.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="LexerState.h" />
+    <ClInclude Include="Lexer.h" />
     <ClInclude Include="Number.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="Sum.h" />
     <ClInclude Include="Term.h" />
     <ClInclude Include="Variable.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="LexerState.cpp" />
+    <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

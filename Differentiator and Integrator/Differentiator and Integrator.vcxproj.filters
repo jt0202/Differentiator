@@ -13,31 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\TermTree">
+      <UniqueIdentifier>{e4944b6b-3afa-4837-8595-572e1d9ee370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Term.h">
+    <ClInclude Include="Parser.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
+    <ClInclude Include="Lexer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LexerState.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Atom.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Number.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Sum.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Variable.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Product.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Exponent.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Product.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Sum.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Term.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LexerState.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
