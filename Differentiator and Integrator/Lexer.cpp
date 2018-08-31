@@ -2,41 +2,58 @@
 
 Lexer::Lexer(std::string i_input)
 {
-	input = i_input;
+	m_input = i_input;
 
-	if (!input.empty())
-	{
-		char c = input.front();
-	}
+
+	// This ensures that every State just exists once and can be easily 
+	// accessed using the enums value. There after a change of state
+	// no new state has to be created
+	m_states.resize(numberOfTypes);
+
+	m_states.at(NUMBER) = new NumberState();
+	m_states.at(LETTER) = new LetterState();
+	m_states.at(OPERATOR) = new OperatorState();
+
+	// The Operator State carries no side effects,
+	// If we would start e.g. in the number state and first
+	// read a character the system would assume that a * is missing
+	// (consider 2x => 2*x) and therefore would lead to a parsing failure later.
+	m_currentState = m_states.at(OPERATOR);
 }
 
 void Lexer::split()
 {
-	while (!input.empty())
+	for (int i = 0; i < m_input.size(); i++)
 	{
-		char c = input.front();
+		char c = m_input.at(i);
 
-		if (!input.empty())
+		// Spaces aren't important for any calculation in 
+		// the normal sense and are therefore ignored
+		if (c == ' ')
 		{
-			input = input.substr(1, input.length());
+			continue;
 		}
 
+		// Reaction on the read character. The states handle 
+		// to combine the characters to tokens. Unknown characters
+		// will already throw an exception in the evaluate character function.
 		switch (evaluateCharacter(c))
 		{
-			case NUMBER:
-				m_currentState->readNumber();
-				break;
-			case LETTER:
-				m_currentState->readOperator();
-				break;
-			case OPERATOR: m_currentState->readOperator();
-				break;
-			default:
-				//Error
+		case NUMBER:
+			m_currentState->readNumber();
+			break;
+		case LETTER:
+			m_currentState->readLetter();
+			break;
+		case OPERATOR:
+			m_currentState->readOperator();
+		default:
+			break;
 		}
 	}
 }
 
+// See the comment to stack in Lexer.h
 void Lexer::addToStack(char c)
 {
 	stack += c;
@@ -46,7 +63,7 @@ void Lexer::publishStack()
 {
 	if (stack.empty())
 	{
-		//This shouldn't happen. This would mean an empty term.
+		return;
 	}
 
 	m_tokens.push_back(stack);
@@ -57,4 +74,41 @@ void Lexer::publishStack()
 std::vector<std::string> Lexer::getTokens()
 {
 	return m_tokens;
+}
+
+// This function determines the type of each character therefore
+// let the system choose the right function to combine them.
+// Unknown characters will throw an exception.
+Types Lexer::evaluateCharacter(char c)
+{
+	if (isdigit(c) != 0)
+	{
+		return NUMBER;
+	}
+	if (isalpha(c) != 0)
+	{
+		return LETTER;
+	}
+
+	// TODO: Better system for operators.
+	std::vector<char> operators = { '+','-','*', '/', '^', '(', ')' };
+
+	if (find(operators.begin(), operators.end(), c) != operators.end())
+	{
+		return OPERATOR;
+	}
+
+	//throw Exception, that unknown token was read. Spaces will already be ignored in split function
+}
+
+void Lexer::setState(Types i_type)
+{
+	try
+	{
+		m_currentState = m_states.at(i_type);
+	}
+	catch (std::out_of_range e)
+	{
+		// Throw new Parsing exception, due to unknown character type.
+	}
 }
