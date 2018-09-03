@@ -10,9 +10,9 @@ Lexer::Lexer(std::string i_input)
 	// no new state has to be created
 	m_states.resize(numberOfTypes);
 
-	m_states.at(NUMBER) = new NumberState();
-	m_states.at(LETTER) = new LetterState();
-	m_states.at(OPERATOR) = new OperatorState();
+	m_states.at(NUMBER) = new NumberState(this);
+	m_states.at(LETTER) = new LetterState(this);
+	m_states.at(OPERATOR) = new OperatorState(this);
 
 	// The Operator State carries no side effects,
 	// If we would start e.g. in the number state and first
@@ -40,13 +40,13 @@ void Lexer::split()
 		switch (evaluateCharacter(c))
 		{
 		case NUMBER:
-			m_currentState->readNumber();
+			m_currentState->readNumber(c);
 			break;
 		case LETTER:
-			m_currentState->readLetter();
+			m_currentState->readLetter(c);
 			break;
 		case OPERATOR:
-			m_currentState->readOperator();
+			m_currentState->readOperator(c);
 		default:
 			break;
 		}
