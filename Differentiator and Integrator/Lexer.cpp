@@ -19,6 +19,8 @@ Lexer::Lexer(std::string i_input)
 	// read a character the system would assume that a * is missing
 	// (consider 2x => 2*x) and therefore would lead to a parsing failure later.
 	m_currentState = m_states.at(OPERATOR);
+
+	split();
 }
 
 void Lexer::split()
@@ -81,7 +83,8 @@ std::vector<std::string> Lexer::getTokens()
 // Unknown characters will throw an exception.
 Types Lexer::evaluateCharacter(char c)
 {
-	if (isdigit(c) != 0)
+	// Checking whether it's a decimal number(3.14)
+	if (isdigit(c) != 0 || c =='.')
 	{
 		return NUMBER;
 	}
@@ -91,7 +94,7 @@ Types Lexer::evaluateCharacter(char c)
 	}
 
 	// TODO: Better system for operators.
-	std::vector<char> operators = { '+','-','*', '/', '^', '(', ')' };
+	std::vector<char> operators = { '+','-','*', '/', '^', '(', ')' , ','};
 
 	if (find(operators.begin(), operators.end(), c) != operators.end())
 	{
