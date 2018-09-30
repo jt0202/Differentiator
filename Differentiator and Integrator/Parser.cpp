@@ -29,7 +29,7 @@ bool Parser::parse()
 	// to determine whether a plus or minus is unary
 	for (int i = 0; i < m_tokens.size(); i++)
 	{
-		std::string& token = m_tokens.at(i);
+		std::string token = m_tokens.at(i);
 
 		switch (getType(token))
 		{
@@ -47,7 +47,8 @@ bool Parser::parse()
 			functionStack.push(token);
 			break;
 		case COMMA:
-			
+			// Not implemented
+			std::cout << "Functions with multiple arguments are not implemented." << std::endl;
 			break;
 		case OPERATOR:
 			if (unaryOperator(i))
@@ -62,26 +63,74 @@ bool Parser::parse()
 					// It's an unary minus.
 					// To differentiate from the normal minus,
 					// we push a different token onto the stack
-					functionStack.push("neg");
+					token = "neg";
 				}
 			}
-			else
+			while (!functionStack.empty() && isOperator(functionStack.top()) 
+				  && isLeftAssociative(functionStack.top()) && 
+				getPrecedence(token) <= getPrecedence(functionStack.top()))
 			{
-				functionStack.push(token);
+				createTerm(functionStack.top(), &output);
+				functionStack.pop();
 			}
+
+			functionStack.push(token);
 
 			break;
 		case OPENBRACKET:
+			functionStack.push("(");
 			break;
 		case CLOSEDBRACKET:
+			do
+			{
+				if (functionStack.empty())
+				{
+					std::cout << "A closed bracket without an open bracket before occurs." << std::endl;
+
+					return false;
+				}
+				createTerm(functionStack.top(), &output);
+
+				functionStack.pop();
+			} while (functionStack.top() != "(");
+
+			// Remove open bracket.
+			functionStack.pop();
+
+			// In case of an expression like ln(1) the brackets belong to the function.
+			if (isFunction(functionStack.top()))
+			{
+				createTerm(functionStack.top(), &output);
+				functionStack.pop();
+			}
 			break;
 		case UNKNOWN:
 			// Error.
 			// Stop the whole parsing
-			break;
-
+			std::cout << "Unknown token. Parsing stopped" << std::endl;
+			return false;
 		}
 	}
+
+	while (!functionStack.empty())
+	{
+		if (functionStack.top() == "(")
+		{
+			std::cout << "Open bracket without closing bracket found !" << std::endl;
+			return false;
+		}
+
+		createTerm(functionStack.top(), &output);
+		functionStack.pop();
+	}
+
+	if (output.size() != 1)
+	{
+		return false;
+	}
+
+	// The 
+	m_tree = output.at(0);
 
 	return true;
 }
@@ -179,4 +228,33 @@ bool Parser::unaryOperator(int pos)
 	{
 		return true;
 	}
+}
+
+bool Parser::isFunction(std::string i_input)
+{
+	bool output = true;
+
+	for (int i = 0; i < i_input.size(); i++)
+	{
+		output = output && (isalpha(i_input.at(i)) != 0);
+	}
+
+	if (i_input.empty())
+	{
+		return false;
+	}
+
+	return output;
+}
+
+// Returns the associativity for the parsing algorithm
+bool Parser::isLeftAssociative(std::string i_operator)
+{
+	// +, -, *, / are left associative.
+	// ^ is right associative
+	if (i_operator == "^")
+	{
+		return false;
+	}
+	return true;
 }

@@ -16,7 +16,7 @@ protected:
 	int maxArguments;
 
 public:
-	int degree();
+	// int degree();
 
 	Term differentiate();
 

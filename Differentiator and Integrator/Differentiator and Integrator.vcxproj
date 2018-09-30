@@ -117,6 +117,7 @@
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Number.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Precedence.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="Sum.h" />
     <ClInclude Include="Term.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="LexerState.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Precedence.cpp" />
     <ClCompile Include="Variable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
