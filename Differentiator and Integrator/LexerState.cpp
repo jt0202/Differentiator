@@ -25,7 +25,7 @@ void NumberState::readLetter(char c)
 
 	// Now reading letters
 	m_lexer->addToStack(c);
-	m_lexer->setState(LETTER);
+	m_lexer->setState(TLETTER);
 }
 
 void NumberState::readNumber(char c)
@@ -40,7 +40,7 @@ void NumberState::readOperator(char c)
 
 	// Now reading operators
 	m_lexer->addToStack(c);
-	m_lexer->setState(OPERATOR);
+	m_lexer->setState(TOPERATOR);
 }
 
 OperatorState::OperatorState(Lexer* i_lexer)
@@ -54,7 +54,7 @@ void OperatorState::readLetter(char c)
 	m_lexer->publishStack();
 
 	m_lexer->addToStack(c);
-	m_lexer->setState(LETTER);
+	m_lexer->setState(TLETTER);
 }
 
 void OperatorState::readNumber(char c)
@@ -62,7 +62,7 @@ void OperatorState::readNumber(char c)
 	m_lexer->publishStack();
 
 	m_lexer->addToStack(c);
-	m_lexer->setState(NUMBER);
+	m_lexer->setState(TNUMBER);
 }
 
 void OperatorState::readOperator(char c)
@@ -70,7 +70,7 @@ void OperatorState::readOperator(char c)
 	m_lexer->publishStack();
 
 	m_lexer->addToStack(c);
-	m_lexer->setState(OPERATOR);
+	m_lexer->setState(TOPERATOR);
 }
 
 LetterState::LetterState(Lexer* i_lexer)
@@ -89,7 +89,7 @@ void LetterState::readNumber(char c)
 	m_lexer->publishStack();
 
 	m_lexer->addToStack(c);
-	m_lexer->setState(NUMBER);
+	m_lexer->setState(TNUMBER);
 }
 
 void LetterState::readOperator(char c)
@@ -97,5 +97,5 @@ void LetterState::readOperator(char c)
 	m_lexer->publishStack();
 
 	m_lexer->addToStack(c);
-	m_lexer->setState(OPERATOR);
+	m_lexer->setState(TOPERATOR);
 }

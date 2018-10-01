@@ -1,3 +1,4 @@
+#pragma once
 #include "Term.h"
 
 // This class represents the basic elements

@@ -10,15 +10,15 @@ Lexer::Lexer(std::string i_input)
 	// no new state has to be created
 	m_states.resize(numberOfTypes);
 
-	m_states.at(NUMBER) = new NumberState(this);
-	m_states.at(LETTER) = new LetterState(this);
-	m_states.at(OPERATOR) = new OperatorState(this);
+	m_states.at(TNUMBER) = new NumberState(this);
+	m_states.at(TLETTER) = new LetterState(this);
+	m_states.at(TOPERATOR) = new OperatorState(this);
 
 	// The Operator State carries no side effects,
 	// If we would start e.g. in the number state and first
 	// read a character the system would assume that a * is missing
 	// (consider 2x => 2*x) and therefore would lead to a parsing failure later.
-	m_currentState = m_states.at(OPERATOR);
+	m_currentState = m_states.at(TOPERATOR);
 
 	split();
 }
@@ -41,18 +41,20 @@ void Lexer::split()
 		// will already throw an exception in the evaluate character function.
 		switch (evaluateCharacter(c))
 		{
-		case NUMBER:
+		case TNUMBER:
 			m_currentState->readNumber(c);
 			break;
-		case LETTER:
+		case TLETTER:
 			m_currentState->readLetter(c);
 			break;
-		case OPERATOR:
+		case TOPERATOR:
 			m_currentState->readOperator(c);
 		default:
 			break;
 		}
 	}
+
+	m_tokens.push_back(stack);
 }
 
 // See the comment to stack in Lexer.h
@@ -86,11 +88,11 @@ Types Lexer::evaluateCharacter(char c)
 	// Checking whether it's a decimal number(3.14)
 	if (isdigit(c) != 0 || c =='.')
 	{
-		return NUMBER;
+		return TNUMBER;
 	}
 	if (isalpha(c) != 0)
 	{
-		return LETTER;
+		return TLETTER;
 	}
 
 	// TODO: Better system for operators.
@@ -98,7 +100,7 @@ Types Lexer::evaluateCharacter(char c)
 
 	if (find(operators.begin(), operators.end(), c) != operators.end())
 	{
-		return OPERATOR;
+		return TOPERATOR;
 	}
 
 	//throw Exception, that unknown token was read. Spaces will already be ignored in split function

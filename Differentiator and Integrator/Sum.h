@@ -1,13 +1,11 @@
 #pragma once
-#include "Function.h"
+#include "Operator.h"
 #include <vector>
 
-class Sum : public Function
+class Sum : public MathOperator
 {
 private:
 
 public:
-	Sum(std::vector<Term> arguments);
-
-	Term differentiate();
+	Sum(Term* summand1, Term* summand2);
 };

@@ -11,17 +11,18 @@
 // or equal to the number of states.
 const int numberOfTypes = 3;
 
-// Types that will occur in the terms.
 enum Types
 {
-	NUMBER = numberOfTypes-3,
-	OPERATOR = numberOfTypes-2,
-	LETTER = numberOfTypes-1,
+	TNUMBER = numberOfTypes - 3,
+	TOPERATOR = numberOfTypes - 2,
+	TLETTER = numberOfTypes - 1,
 };
 
 class Lexer
 {
 private:
+	// Types that will occur in the terms.
+
 	// State pattern
 	State* m_currentState;
 	// All possible states
@@ -40,6 +41,7 @@ private:
 	Types evaluateCharacter(char c);
 
 	void split();
+
 public:
 	Lexer(std::string input);
 

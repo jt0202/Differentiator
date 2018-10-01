@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 
 // This class represents the terms that compose the equation,
@@ -9,17 +10,16 @@ class Term
 {
 protected:
 	//The arguments of the "function". 0 if it's a variable or number.
-	std::vector<Term> arguments;
+	std::vector<Term*> arguments;
 
 	//Some functions like sin, cos have limited number of arguments, whereas
 	// sums or products may have infinite number of arguments.
-	int maxArguments;
+	//int maxArguments;
 
+	std::string type;
 public:
-	// int degree();
+	// virtual Term* differentiate() = 0;
 
-	Term differentiate();
-
-	Term evaluateSym();
+	// virtual Term* evaluateSym() = 0;
 
 };

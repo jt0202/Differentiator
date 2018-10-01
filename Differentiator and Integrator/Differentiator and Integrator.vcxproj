@@ -113,6 +113,8 @@
     <ClInclude Include="Atom.h" />
     <ClInclude Include="Exponent.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="Logarithm.h" />
+    <ClInclude Include="Operator.h" />
     <ClInclude Include="LexerState.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Number.h" />
@@ -126,9 +128,14 @@
   <ItemGroup>
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerState.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Number.cpp" />
+    <ClCompile Include="Operator.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Precedence.cpp" />
+    <ClCompile Include="Product.cpp" />
+    <ClCompile Include="Sum.cpp" />
+    <ClCompile Include="Term.cpp" />
     <ClCompile Include="Variable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -230,6 +230,11 @@ bool Parser::unaryOperator(int pos)
 	}
 }
 
+bool Parser::isOperator(std::string i_operator)
+{
+	return std::find(m_operators.begin(), m_operators.end(), i_operator) != m_operators.end();
+}
+
 bool Parser::isFunction(std::string i_input)
 {
 	bool output = true;
@@ -257,4 +262,36 @@ bool Parser::isLeftAssociative(std::string i_operator)
 		return false;
 	}
 	return true;
+}
+
+bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
+{
+	if (symbol == "+")
+	{
+		output->push_back(new Sum(getLastElement(output), getLastElement(output)));
+
+		return true;
+	}
+
+	if (symbol == "-")
+	{
+		output->push_back(new Sum(new Product(new Number("-1"), getLastElement(output)), getLastElement(output)));
+
+		return true;
+	}
+
+	return false;
+}
+
+Term* Parser::getLastElement(std::vector<Term*>* output)
+{
+	if (output->empty())
+	{
+		return nullptr;
+	}
+
+	Term* out = output->back();
+	output->pop_back();
+
+	return out;
 }

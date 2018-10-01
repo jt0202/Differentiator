@@ -1,7 +1,8 @@
 #pragma once
-#include "Function.h"
+#include "Operator.h"
 
-class Product : public Function
+class Product : public MathOperator
 {
-
+public:
+	Product(Term* factor1, Term* factor2);
 };

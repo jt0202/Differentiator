@@ -16,6 +16,9 @@
     <Filter Include="Headerdateien\TermTree">
       <UniqueIdentifier>{e4944b6b-3afa-4837-8595-572e1d9ee370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\TermTree">
+      <UniqueIdentifier>{ee68468b-6841-44b7-b147-e8a7fae3cc50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Parser.h">
@@ -31,9 +34,6 @@
       <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Exponent.h">
-      <Filter>Headerdateien\TermTree</Filter>
-    </ClInclude>
-    <ClInclude Include="Function.h">
       <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Number.h">
@@ -54,6 +54,15 @@
     <ClInclude Include="Precedence.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Operator.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Logarithm.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
@@ -65,13 +74,28 @@
     <ClCompile Include="LexerState.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Number.cpp">
+    <ClCompile Include="Precedence.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Variable.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\TermTree</Filter>
     </ClCompile>
-    <ClCompile Include="Precedence.cpp">
+    <ClCompile Include="Number.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Term.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Sum.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Operator.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Product.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

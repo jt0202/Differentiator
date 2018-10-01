@@ -1,7 +1,7 @@
 #pragma once
-#include "Function.h"
+#include "Operator.h"
 
-class Exponent : public Function
+class Exponent : public MathOperator
 {
 
 };
