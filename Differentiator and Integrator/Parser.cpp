@@ -81,7 +81,14 @@ bool Parser::parse()
 			functionStack.push("(");
 			break;
 		case CLOSEDBRACKET:
-			do
+
+			if (functionStack.empty())
+			{
+				std::cout << "A closed bracket without an open bracket before occurs." << std::endl;
+
+				return false;
+			}
+			while (functionStack.top() != "(")
 			{
 				if (functionStack.empty())
 				{
@@ -92,7 +99,7 @@ bool Parser::parse()
 				createTerm(functionStack.top(), &output);
 
 				functionStack.pop();
-			} while (functionStack.top() != "(");
+			}
 
 			// Remove open bracket.
 			functionStack.pop();
@@ -203,6 +210,10 @@ TokenType Parser::getType(std::string token)
 		return VARIABLE;
 	}
 
+	if (isFunction(token))
+	{
+		return FUNCTION;
+	}
 	return UNKNOWN;
 }
 
@@ -272,10 +283,39 @@ bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
 
 		return true;
 	}
-
 	if (symbol == "-")
 	{
 		output->push_back(new Sum(new Product(new Number("-1"), getLastElement(output)), getLastElement(output)));
+
+		return true;
+	}
+	if (symbol == "*")
+	{
+		output->push_back(new Product(getLastElement(output), getLastElement(output)));
+
+		return true;
+	}
+	if (symbol == "/")
+	{
+		output->push_back(new Fraction(getLastElement(output), getLastElement(output)));
+
+		return true;
+	}
+	if (symbol == "ln")
+	{
+		output->push_back(new Logarithm(getLastElement(output)));
+
+		return true;
+	}
+	if (symbol == "^")
+	{
+		output->push_back(new Exponent(getLastElement(output), getLastElement(output)));
+
+		return true;
+	}
+	if (isFunction(symbol))
+	{
+		output->push_back(new Function(symbol, getLastElement(output)));
 
 		return true;
 	}

@@ -3,5 +3,6 @@
 
 class Exponent : public MathOperator
 {
-
+public:
+	Exponent(Term* exponent, Term* base);
 };

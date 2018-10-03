@@ -6,3 +6,8 @@ Sum::Sum(Term* summand1, Term* summand2)
 {
 	type = "sum";
 }
+
+Term* Sum::differentiate(char variable)
+{
+	return nullptr;
+}

@@ -12,7 +12,9 @@
 #include "Sum.h"
 #include "Product.h"
 #include "Precedence.h"
-
+#include "Fraction.h"
+#include "Logarithm.h"
+#include "Function.h"
 // Temporary include
 #include <iostream>
 

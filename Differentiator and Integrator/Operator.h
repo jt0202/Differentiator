@@ -17,4 +17,6 @@ public:
 	// 2 argument constructor for sums or products
 	MathOperator(Term* term1, Term* term2);
 
+	// Constructor for multiple number of arguments that might occur during a differentiation
+	MathOperator(std::vector<Term*> terms);
 };

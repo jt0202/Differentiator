@@ -19,6 +19,9 @@
     <Filter Include="Quelldateien\TermTree">
       <UniqueIdentifier>{ee68468b-6841-44b7-b147-e8a7fae3cc50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\TermTree\BaseTree">
+      <UniqueIdentifier>{70a3485f-fca2-452c-8f1b-f554b8857de2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Parser.h">
@@ -29,9 +32,6 @@
     </ClInclude>
     <ClInclude Include="LexerState.h">
       <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Atom.h">
-      <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Exponent.h">
       <Filter>Headerdateien\TermTree</Filter>
@@ -45,23 +45,29 @@
     <ClInclude Include="Sum.h">
       <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
-    <ClInclude Include="Term.h">
-      <Filter>Headerdateien\TermTree</Filter>
-    </ClInclude>
     <ClInclude Include="Variable.h">
       <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Precedence.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Operator.h">
-      <Filter>Headerdateien\TermTree</Filter>
-    </ClInclude>
     <ClInclude Include="Logarithm.h">
       <Filter>Headerdateien\TermTree</Filter>
     </ClInclude>
     <ClInclude Include="Function.h">
       <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Fraction.h">
+      <Filter>Headerdateien\TermTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Atom.h">
+      <Filter>Headerdateien\TermTree\BaseTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Operator.h">
+      <Filter>Headerdateien\TermTree\BaseTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Term.h">
+      <Filter>Headerdateien\TermTree\BaseTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +103,18 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Fraction.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Logarithm.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Exponent.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Function.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

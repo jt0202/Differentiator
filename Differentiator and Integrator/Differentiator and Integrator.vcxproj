@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="Atom.h" />
     <ClInclude Include="Exponent.h" />
+    <ClInclude Include="Fraction.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Logarithm.h" />
     <ClInclude Include="Operator.h" />
@@ -126,8 +127,12 @@
     <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Exponent.cpp" />
+    <ClCompile Include="Fraction.cpp" />
+    <ClCompile Include="Function.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerState.cpp" />
+    <ClCompile Include="Logarithm.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Operator.cpp" />
