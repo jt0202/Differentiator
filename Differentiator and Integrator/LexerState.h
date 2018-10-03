@@ -26,6 +26,8 @@ public:
 
 class OperatorState : public State
 {
+private:
+	char lastOperator;
 public:
 	OperatorState(Lexer* i_lexer);
 	void readNumber(char c);

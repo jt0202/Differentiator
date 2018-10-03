@@ -46,7 +46,7 @@ void NumberState::readOperator(char c)
 OperatorState::OperatorState(Lexer* i_lexer)
 	: State(i_lexer)
 {
-
+	lastOperator = ' ';
 }
 
 void OperatorState::readLetter(char c)
@@ -68,6 +68,14 @@ void OperatorState::readNumber(char c)
 void OperatorState::readOperator(char c)
 {
 	m_lexer->publishStack();
+
+	// Recognize implicit multiplication signs like
+	// between (2-3)(4+5)
+	if (lastOperator == ')' && c == '(')
+	{
+		m_lexer->addToStack('*');
+		m_lexer->publishStack();
+	}
 
 	m_lexer->addToStack(c);
 	m_lexer->setState(TOPERATOR);
