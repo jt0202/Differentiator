@@ -19,4 +19,6 @@ public:
 
 	// Constructor for multiple number of arguments that might occur during a differentiation
 	MathOperator(std::vector<Term*> terms);
+
+	virtual std::string output() = 0;
 };

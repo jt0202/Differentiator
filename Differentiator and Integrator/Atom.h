@@ -8,4 +8,6 @@ class Atom : public Term
 {
 public:
 	int degree();
+
+	virtual std::string output() = 0;
 };

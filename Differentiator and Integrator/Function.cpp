@@ -5,3 +5,8 @@ Function::Function(std::string name, Term* argument)
 {
 	functionName = name;
 }
+
+std::string Function::output()
+{
+	return functionName + "(" + arguments.at(0)->output() + ")";
+}

@@ -5,3 +5,8 @@ Number::Number(std::string i_input)
 {
 
 }
+
+std::string Number::output()
+{
+	return m_text;
+}

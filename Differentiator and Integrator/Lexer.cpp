@@ -117,3 +117,13 @@ void Lexer::setState(Types i_type)
 		// Throw new Parsing exception, due to unknown character type.
 	}
 }
+
+std::string Lexer::getLastToken()
+{
+	if (m_tokens.empty())
+	{
+		return " ";
+	}
+
+	return m_tokens.back();
+}

@@ -8,6 +8,7 @@ class State
 {
 protected:
 	Lexer* m_lexer;
+	char lastOperator = ' ';
 public:
 	State(Lexer* i_lexer);
 	virtual void readNumber(char c) = 0;
@@ -27,7 +28,6 @@ public:
 class OperatorState : public State
 {
 private:
-	char lastOperator;
 public:
 	OperatorState(Lexer* i_lexer);
 	void readNumber(char c);

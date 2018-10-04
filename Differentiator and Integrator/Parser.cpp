@@ -105,7 +105,7 @@ bool Parser::parse()
 			functionStack.pop();
 
 			// In case of an expression like ln(1) the brackets belong to the function.
-			if (isFunction(functionStack.top()))
+			if (!functionStack.empty() && isFunction(functionStack.top()))
 			{
 				createTerm(functionStack.top(), &output);
 				functionStack.pop();
@@ -334,4 +334,9 @@ Term* Parser::getLastElement(std::vector<Term*>* output)
 	output->pop_back();
 
 	return out;
+}
+
+Term* Parser::getTree()
+{
+	return m_tree;
 }

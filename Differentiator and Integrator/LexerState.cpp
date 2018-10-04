@@ -1,5 +1,6 @@
 #include "Lexer.h"
 #include "LexerState.h"
+#include <iostream>
 
 State::State(Lexer* i_lexer)
 	: m_lexer(i_lexer)
@@ -71,7 +72,7 @@ void OperatorState::readOperator(char c)
 
 	// Recognize implicit multiplication signs like
 	// between (2-3)(4+5)
-	if (lastOperator == ')' && c == '(')
+	if (m_lexer->getLastToken() == ")" && c == '(')
 	{
 		m_lexer->addToStack('*');
 		m_lexer->publishStack();

@@ -15,4 +15,6 @@ int getPrecedence(std::string i_operator)
 	{
 		return MultiplicationLevel;
 	}
+
+	return FunctionLevel;
 }

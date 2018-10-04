@@ -9,7 +9,20 @@ int main()
 
 	Parser p(input);
 
-	p.parse();
+	if (p.parse())
+	{
+		std::cout << p.getTree()->output() << std::endl;
 
-	std::cout << "Test" << std::endl;
+		std::cout << "Test" << std::endl;
+
+	}
+	else
+	{
+		std::cout << "Parsing failed." << std::endl;
+	}
+
+	
+	system("PAUSE");
+
+	return 0;
 }

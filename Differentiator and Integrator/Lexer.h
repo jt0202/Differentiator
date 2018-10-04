@@ -52,4 +52,6 @@ public:
 	std::vector<std::string> getTokens();
 
 	void setState(Types i_type);
+
+	std::string getLastToken();
 };

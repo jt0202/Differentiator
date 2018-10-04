@@ -5,3 +5,8 @@ Exponent::Exponent(Term* exponent, Term* base)
 {
 
 }
+
+std::string Exponent::output()
+{
+	return "(" + arguments.at(BASE)->output() + ")" + "^" + "(" + arguments.at(EXPONENT)->output() + ")";
+}

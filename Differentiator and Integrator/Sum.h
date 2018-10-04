@@ -10,4 +10,6 @@ public:
 	Sum(Term* summand1, Term* summand2);
 
 	Term* differentiate(char variable);
+
+	std::string output();
 };

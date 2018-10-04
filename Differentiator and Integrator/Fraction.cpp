@@ -5,3 +5,8 @@ Fraction::Fraction(Term* denominator, Term* numerator)
 {
 
 }
+
+std::string Fraction::output()
+{
+	return "(" + arguments.at(NUMERATOR)->output() + ")/(" + arguments.at(DENOMINATOR)->output() + ")";
+}

@@ -5,4 +5,6 @@ class Logarithm : public MathOperator
 {
 public:
 	Logarithm(Term* term);
+
+	std::string output();
 };

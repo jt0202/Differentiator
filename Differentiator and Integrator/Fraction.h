@@ -12,4 +12,5 @@ private:
 public:
 	Fraction(Term* denominator, Term* numerator);
 
+	std::string output();
 };

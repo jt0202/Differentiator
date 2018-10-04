@@ -9,4 +9,6 @@ private:
 
 public:
 	Function(std::string name, Term* argument);
+
+	std::string output();
 };
