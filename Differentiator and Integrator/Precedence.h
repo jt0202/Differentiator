@@ -6,10 +6,10 @@
 
 enum PrecedenceLevel
 {
-	FunctionLevel = 0,
-	ExponentLevel = 1,
-	MultiplicationLevel = 2,
-	AdditionLevel = 3
+	FunctionLevel = 3,
+	ExponentLevel = 2,
+	MultiplicationLevel = 1,
+	AdditionLevel = 0
 };
 
 int getPrecedence(std::string i_operator);

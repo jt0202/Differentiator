@@ -67,8 +67,13 @@ bool Parser::parse()
 				}
 			}
 			while (!functionStack.empty() && isOperator(functionStack.top()) 
-				  && isLeftAssociative(functionStack.top()) && 
-				getPrecedence(token) <= getPrecedence(functionStack.top()))
+				  &&
+					(
+						(isLeftAssociative(token) && getPrecedence(functionStack.top()) >= getPrecedence(token))
+						||
+						(getPrecedence(functionStack.top()) > getPrecedence(token))
+					)
+				)
 			{
 				createTerm(functionStack.top(), &output);
 				functionStack.pop();
