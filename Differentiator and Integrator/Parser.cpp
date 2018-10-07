@@ -49,7 +49,7 @@ bool Parser::parse()
 		case COMMA:
 			// Not implemented
 			std::cout << "Functions with multiple arguments are not implemented." << std::endl;
-			break;
+			return false;
 		case OPERATOR:
 			if (unaryOperator(i))
 			{
@@ -69,7 +69,7 @@ bool Parser::parse()
 			while (!functionStack.empty() && isOperator(functionStack.top()) 
 				  &&
 					(
-						(isLeftAssociative(token) && getPrecedence(functionStack.top()) >= getPrecedence(token))
+						(isLeftAssociative(functionStack.top()) && getPrecedence(functionStack.top()) >= getPrecedence(token))
 						||
 						(getPrecedence(functionStack.top()) > getPrecedence(token))
 					)

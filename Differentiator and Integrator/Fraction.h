@@ -6,8 +6,8 @@ class Fraction : public MathOperator
 private:
 	enum 
 	{
-		NUMERATOR = 1,
-		DENOMINATOR = 0
+		NUMERATOR = 0,
+		DENOMINATOR = 1
 	};
 public:
 	Fraction(Term* denominator, Term* numerator);

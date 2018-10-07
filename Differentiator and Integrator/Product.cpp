@@ -9,7 +9,7 @@ Product::Product(Term* factor1, Term* factor2)
 std::string Product::output()
 {
 	std::string out;
-	if (getPrecedence(arguments.at(0)->getType()) > MultiplicationLevel)
+	if (getPrecedence(arguments.at(0)->getType()) < MultiplicationLevel)
 	{
 		out = "(" + arguments.at(0)->output() + ")";
 	}
@@ -21,7 +21,7 @@ std::string Product::output()
 	for (int i = 1; i < arguments.size(); i++)
 	{
 
-		if (getPrecedence(arguments.at(i)->getType()) > MultiplicationLevel)
+		if (getPrecedence(arguments.at(i)->getType()) < MultiplicationLevel)
 		{
 			out += "\*(" + arguments.at(i)->output()+ ")";
 		}

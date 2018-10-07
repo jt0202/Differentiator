@@ -19,7 +19,7 @@ protected:
 
 	std::string type = " ";
 public:
-	// virtual Term* differentiate() = 0;
+	//virtual Term* differentiate(char variable) = 0;
 
 	// virtual Term* evaluateSym() = 0;
 
