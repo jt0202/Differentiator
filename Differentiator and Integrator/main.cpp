@@ -13,8 +13,7 @@ int main()
 	{
 		std::cout << p.getTree()->output() << std::endl;
 
-		std::cout << "Test" << std::endl;
-
+		std::cout << p.getTree()->differentiate('x')->output() << std::endl;
 	}
 	else
 	{

@@ -55,7 +55,7 @@ Term* Product::differentiate(char variable)
 	for (int i = 0; i < arguments.size(); i++)
 	{
 		std::vector<Term*> s = arguments;
-		s.at(i)->differentiate(variable);
+		s.at(i) = s.at(i)->differentiate(variable);
 
 		summands.push_back(new Product(s));
 	}

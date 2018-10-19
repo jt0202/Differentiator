@@ -21,5 +21,7 @@ Term* Exponent::differentiate(char var)
 {
 	Term* helpTerm = new Product(arguments.at(EXPONENT), new Logarithm(arguments.at(BASE)));
 
-	return new Product(helpTerm->differentiate(var), this);
+	Term* differentiatedTerm = helpTerm->differentiate(var);
+
+	return new Product(differentiatedTerm, this);
 }
