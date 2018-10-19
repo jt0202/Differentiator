@@ -1,5 +1,7 @@
 #pragma once
 #include "Operator.h"
+#include "Product.h"
+#include "Logarithm.h"
 
 class Exponent : public MathOperator
 {
@@ -11,6 +13,8 @@ private:
 	};
 public:
 	Exponent(Term* exponent, Term* base);
+
+	Term* differentiate(char var);
 
 	std::string output();
 };

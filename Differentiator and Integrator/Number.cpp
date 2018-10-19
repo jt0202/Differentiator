@@ -10,3 +10,8 @@ std::string Number::output()
 {
 	return m_text;
 }
+
+Term* Number::differentiate(char var)
+{
+	return new Number("0");
+}

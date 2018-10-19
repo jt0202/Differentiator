@@ -18,3 +18,15 @@ std::string Variable::output()
 
 	return output;
 }
+
+Term* Variable::differentiate(char var)
+{
+	if (m_name == var)
+	{
+		return new Number("1");
+	}
+	else
+	{
+		return new Number("0");
+	}
+}

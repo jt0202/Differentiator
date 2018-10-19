@@ -7,9 +7,23 @@ Sum::Sum(Term* summand1, Term* summand2)
 	type = "+";
 }
 
+Sum::Sum(std::vector<Term*> terms)
+	:MathOperator(terms)
+{
+
+}
+
 Term* Sum::differentiate(char variable)
 {
-	return nullptr;
+	std::vector<Term*> summands;
+
+	// The sum rule of differentiation.
+	for (Term* t : arguments)
+	{
+		summands.push_back(t->differentiate(variable));
+	}
+
+	return new Sum(summands);
 }
 
 std::string Sum::output()

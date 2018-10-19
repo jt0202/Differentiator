@@ -35,3 +35,24 @@ std::string Product::output()
 
 	std::string a;
 }
+
+Term* Product::differentiate(char variable)
+{
+	std::vector<Term*> summands;
+
+	// Usuage of the product rule but in a more general version.
+	// Let f be a product of n factors,
+	// then f' = sum_i=0^n (f_i * prod_k=0&&k!=i^n f_k). (// Pseudo-LaTeX)
+	// Can be obtained by reducing a product of n factors
+	// to a arbitrary factor of these and all others factors in a seperate
+	// bracket pair, since the multiplication is associative. 
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		std::vector<Term*> s = arguments;
+		s.at(i)->differentiate(variable);
+
+		summands.push_back(new Product(s));
+	}
+
+	return new Sum(summands);
+}

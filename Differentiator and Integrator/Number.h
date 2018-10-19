@@ -14,4 +14,6 @@ public:
 	Number(std::string i_input);
 
 	std::string output();
+
+	Term* differentiate(char var);
 };

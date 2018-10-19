@@ -1,7 +1,7 @@
 #pragma once
 #include "Operator.h"
 
-class Fraction : public MathOperator
+/*class Fraction : public MathOperator
 {
 private:
 	enum 
@@ -13,4 +13,4 @@ public:
 	Fraction(Term* denominator, Term* numerator);
 
 	std::string output();
-};
+};*/
