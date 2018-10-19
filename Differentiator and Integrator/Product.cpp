@@ -6,6 +6,12 @@ Product::Product(Term* factor1, Term* factor2)
 
 }
 
+Product::Product(std::vector<Term*> terms)
+	: MathOperator(terms)
+{
+
+}
+
 std::string Product::output()
 {
 	std::string out;

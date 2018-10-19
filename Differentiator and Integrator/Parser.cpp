@@ -302,8 +302,10 @@ bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
 	}
 	if (symbol == "/")
 	{
-		output->push_back(new Fraction(getLastElement(output), getLastElement(output)));
+		Term* denominator = getLastElement(output);
+		Term* numerator = getLastElement(output);
 
+		output->push_back(new Product(numerator, new Exponent(new Number("-1"), denominator)));
 		return true;
 	}
 	if (symbol == "ln")
@@ -314,7 +316,9 @@ bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
 	}
 	if (symbol == "^")
 	{
-		output->push_back(new Exponent(getLastElement(output), getLastElement(output)));
+		Term* exponent = getLastElement(output);
+		Term* base = getLastElement(output);
+		output->push_back(new Exponent(exponent, base));
 
 		return true;
 	}

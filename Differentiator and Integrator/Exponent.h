@@ -8,8 +8,8 @@ class Exponent : public MathOperator
 private:
 	enum 
 	{
-		EXPONENT = 1, 
-		BASE = 0
+		EXPONENT = 0, 
+		BASE = 1
 	};
 public:
 	Exponent(Term* exponent, Term* base);
