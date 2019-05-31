@@ -4,7 +4,19 @@
 
 int main()
 {
-	std::string input;
+	Number n("2");
+
+	Function f("Kosinus", &n);
+
+	f.save();
+
+	Function ff;
+
+	ff.load();
+
+	std::cout << ff.output() << std::endl;
+
+	/*std::string input;
 	std::getline(std::cin, input);
 
 	Parser p(input);
@@ -19,7 +31,7 @@ int main()
 	{
 		std::cout << "Parsing failed." << std::endl;
 	}
-
+	*/
 	
 	system("PAUSE");
 

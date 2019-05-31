@@ -22,6 +22,9 @@
     <Filter Include="Headerdateien\TermTree\BaseTree">
       <UniqueIdentifier>{70a3485f-fca2-452c-8f1b-f554b8857de2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\XML">
+      <UniqueIdentifier>{0145a624-8526-46dd-b877-7b099087b807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Parser.h">
@@ -115,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="Function.cpp">
       <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\tinyxml2.cpp">
+      <Filter>Quelldateien\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\XmlObjectBase.cpp">
+      <Filter>Quelldateien\XML</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
