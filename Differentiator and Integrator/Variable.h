@@ -12,5 +12,5 @@ public:
 
 	std::string output();
 
-	Term* differentiate(char var);
+	Term differentiate(char var);
 };

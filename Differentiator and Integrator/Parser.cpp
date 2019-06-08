@@ -21,8 +21,6 @@ Parser::Parser(std::string i_input)
 // To parse, it uses Dijkstra's shunting yard algorithm.
 bool Parser::parse()
 {
-	std::vector<Term*> output;
-
 	std::stack<std::string> functionStack;
 
 	// I don't use a for each loop, since I need the current position 
@@ -35,13 +33,13 @@ bool Parser::parse()
 		{
 		case NUMBER:
 			// push back number at output
-			output.push_back(new Number(token));
+			output.push_back(Number(token));
 			break;
 		case VARIABLE:
 			// push back variable at output
 			// token.front converts this 1 length string 
 			// to a char to fulfill the requirements
-			output.push_back(new Variable(token.front()));
+			output.push_back(Variable(token.front()));
 			break;
 		case FUNCTION:
 			functionStack.push(token);
@@ -75,7 +73,7 @@ bool Parser::parse()
 					)
 				)
 			{
-				createTerm(functionStack.top(), &output);
+				createTerm(functionStack.top());
 				functionStack.pop();
 			}
 
@@ -101,7 +99,7 @@ bool Parser::parse()
 
 					return false;
 				}
-				createTerm(functionStack.top(), &output);
+				createTerm(functionStack.top());
 
 				functionStack.pop();
 			}
@@ -112,7 +110,7 @@ bool Parser::parse()
 			// In case of an expression like ln(1) the brackets belong to the function.
 			if (!functionStack.empty() && isFunction(functionStack.top()))
 			{
-				createTerm(functionStack.top(), &output);
+				createTerm(functionStack.top());
 				functionStack.pop();
 			}
 			break;
@@ -132,7 +130,7 @@ bool Parser::parse()
 			return false;
 		}
 
-		createTerm(functionStack.top(), &output);
+		createTerm(functionStack.top());
 		functionStack.pop();
 	}
 
@@ -141,8 +139,6 @@ bool Parser::parse()
 		return false;
 	}
 
-	// The 
-	m_tree = output.at(0);
 
 	return true;
 }
@@ -280,51 +276,52 @@ bool Parser::isLeftAssociative(std::string i_operator)
 	return true;
 }
 
-bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
+bool Parser::createTerm(std::string symbol)
 {
 	if (symbol == "+")
 	{
-		output->push_back(new Sum(getLastElement(output), getLastElement(output)));
+		output.push_back(Sum(getLastElement(), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "-")
 	{
-		output->push_back(new Sum(new Product(new Number("-1"), getLastElement(output)), getLastElement(output)));
+		output.push_back(Sum(Product( Number("-1"), getLastElement()), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "*")
 	{
-		output->push_back(new Product(getLastElement(output), getLastElement(output)));
+		output.push_back(Product(getLastElement(), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "/")
 	{
-		Term* denominator = getLastElement(output);
-		Term* numerator = getLastElement(output);
+		Term denominator = getLastElement();
+		Term numerator = getLastElement();
 
-		output->push_back(new Product(numerator, new Exponent(new Number("-1"), denominator)));
+		output.push_back(Product(numerator, Exponent(Number("-1"), denominator)));
 		return true;
 	}
 	if (symbol == "ln")
 	{
-		output->push_back(new Logarithm(getLastElement(output)));
+		output.push_back(Logarithm(getLastElement()));
 
 		return true;
 	}
 	if (symbol == "^")
 	{
-		Term* exponent = getLastElement(output);
-		Term* base = getLastElement(output);
-		output->push_back(new Exponent(exponent, base));
+		Term exponent = getLastElement();
+		Term base = getLastElement();
+		output.push_back(Exponent(exponent, base));
 
 		return true;
 	}
 	if (isFunction(symbol))
+	if (isFunction(symbol))
 	{
-		output->push_back(new Function(symbol, getLastElement(output)));
+		output.push_back(Function(symbol, getLastElement()));
 
 		return true;
 	}
@@ -332,20 +329,25 @@ bool Parser::createTerm(std::string symbol, std::vector<Term*>* output)
 	return false;
 }
 
-Term* Parser::getLastElement(std::vector<Term*>* output)
+Term Parser::getLastElement()
 {
-	if (output->empty())
+	if (output.empty())
 	{
-		return nullptr;
+
 	}
 
-	Term* out = output->back();
-	output->pop_back();
+	Term out = output.back();
+	output.pop_back();
 
 	return out;
 }
 
-Term* Parser::getTree()
+Term Parser::getTree()
 {
-	return m_tree;
+	if (output.size() == 0)
+	{
+		throw std::out_of_range("No Term tree created");
+	}
+
+	return output.at(0);
 }

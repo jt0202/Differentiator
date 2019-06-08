@@ -4,6 +4,7 @@
 #include <stack>
 #include <ctype.h>
 #include <algorithm>
+#include <stdexcept>
 
 #include "Lexer.h"
 #include "Exponent.h"
@@ -17,6 +18,7 @@
 #include "Function.h"
 // Temporary include
 #include <iostream>
+
 
 enum TokenType
 {
@@ -36,11 +38,11 @@ private:
 	std::string m_input;
 	std::vector<std::string> m_tokens;
 
+	std::vector<Term> output;
+
 	const std::vector<std::string> m_operators = {"+", "-", "*", "/", "^"};
 
 	TokenType getType(std::string token);
-
-	Term* m_tree;
 
 	bool isNumber(std::string i);
 
@@ -52,13 +54,13 @@ private:
 
 	bool isFunction(std::string i_input);
 
-	bool createTerm(std::string symbol, std::vector<Term*>* output);
+	bool createTerm(std::string symbol);
 
-	Term* getLastElement(std::vector<Term*>* output);
+	Term getLastElement();
 public:
 	Parser(std::string i_input);
 
 	bool parse();
 
-	Term* getTree();
+	Term getTree();
 };

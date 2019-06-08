@@ -11,9 +11,13 @@ int main()
 
 	if (p.parse())
 	{
-		std::cout << p.getTree()->output() << std::endl;
+		Term t = p.getTree();
 
-		std::cout << p.getTree()->differentiate('x')->output() << std::endl;
+		std::cout << t.output() << std::endl;
+
+		Term diff = t.differentiate('x');
+
+		std::cout << diff.output() << std::endl;
 	}
 	else
 	{

@@ -1,39 +1,41 @@
 #include "Product.h"
 
-Product::Product(Term* factor1, Term* factor2)
+Product::Product(Term factor1, Term factor2)
 	: MathOperator(factor1, factor2)
 {
-
+	setDiff(std::bind(&Product::differentiate, *this, std::placeholders::_1));
+	setOutp(std::bind(&Product::output, *this));
 }
 
-Product::Product(std::vector<Term*> terms)
+Product::Product(std::vector<Term> terms)
 	: MathOperator(terms)
 {
-
+	setDiff(std::bind(&Product::differentiate, *this, std::placeholders::_1));
+	setOutp(std::bind(&Product::output, *this));
 }
 
 std::string Product::output()
 {
 	std::string out;
-	if (getPrecedence(arguments.at(0)->getType()) < MultiplicationLevel)
+	if (getPrecedence(arguments.at(0).getType()) < MultiplicationLevel)
 	{
-		out = "(" + arguments.at(0)->output() + ")";
+		out = "(" + arguments.at(0).output() + ")";
 	}
 	else
 	{
-		out = arguments.at(0)->output();
+		out = arguments.at(0).output();
 	}
 
 	for (int i = 1; i < arguments.size(); i++)
 	{
 
-		if (getPrecedence(arguments.at(i)->getType()) < MultiplicationLevel)
+		if (getPrecedence(arguments.at(i).getType()) < MultiplicationLevel)
 		{
-			out += "\*(" + arguments.at(i)->output()+ ")";
+			out += "\*(" + arguments.at(i).output()+ ")";
 		}
 		else
 		{
-			out += "*" + arguments.at(i)->output();
+			out += "*" + arguments.at(i).output();
 		}
 	}
 
@@ -42,9 +44,9 @@ std::string Product::output()
 	std::string a;
 }
 
-Term* Product::differentiate(char variable)
+Term Product::differentiate(char variable)
 {
-	std::vector<Term*> summands;
+	std::vector<Term> summands;
 
 	// Usuage of the product rule but in a more general version.
 	// Let f be a product of n factors,
@@ -54,11 +56,11 @@ Term* Product::differentiate(char variable)
 	// bracket pair, since the multiplication is associative. 
 	for (int i = 0; i < arguments.size(); i++)
 	{
-		std::vector<Term*> s = arguments;
-		s.at(i) = s.at(i)->differentiate(variable);
+		std::vector<Term> s = arguments;
+		s.at(i) = s.at(i).differentiate(variable);
 
-		summands.push_back(new Product(s));
+		summands.push_back(Product(s));
 	}
 
-	return new Sum(summands);
+	return Sum(summands);
 }

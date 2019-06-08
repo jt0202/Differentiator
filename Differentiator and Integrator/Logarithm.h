@@ -7,8 +7,8 @@
 class Logarithm : public MathOperator
 {
 public:
-	Logarithm(Term* term);
+	Logarithm(Term term);
 
-	Term* differentiate(char var);
+	Term differentiate(char var);
 	std::string output();
 };

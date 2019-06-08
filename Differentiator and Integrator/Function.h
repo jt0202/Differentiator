@@ -14,15 +14,17 @@ private:
 	void obtainData(const DataType& ref) override;
 
 public:
-	Function(std::string name, Term* argument);
+	Function(std::string name, Term argument);
 
 	Function();
 
-	Term* differentiate(char var);
+	Term differentiate(char var);
 
 	std::string output();
 
 	using Xml = XmlObject<std::string>;
+
+	std::string getFunctionName();
 
 };
 

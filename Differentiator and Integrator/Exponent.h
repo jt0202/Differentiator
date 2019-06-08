@@ -12,9 +12,9 @@ private:
 		BASE = 1
 	};
 public:
-	Exponent(Term* exponent, Term* base);
+	Exponent(Term exponent, Term base);
 
-	Term* differentiate(char var);
+	Term differentiate(char var);
 
 	std::string output();
 };
