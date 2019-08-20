@@ -72,6 +72,9 @@
     <ClInclude Include="Term.h">
       <Filter>Headerdateien\TermTree\BaseTree</Filter>
     </ClInclude>
+    <ClInclude Include="SmartPointerVector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">

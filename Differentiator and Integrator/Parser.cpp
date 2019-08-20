@@ -33,13 +33,13 @@ bool Parser::parse()
 		{
 		case NUMBER:
 			// push back number at output
-			output.push_back(Number(token));
+			output.push_back(new Number(token));
 			break;
 		case VARIABLE:
 			// push back variable at output
 			// token.front converts this 1 length string 
 			// to a char to fulfill the requirements
-			output.push_back(Variable(token.front()));
+			output.push_back(new Variable(token.front()));
 			break;
 		case FUNCTION:
 			functionStack.push(token);
@@ -280,48 +280,47 @@ bool Parser::createTerm(std::string symbol)
 {
 	if (symbol == "+")
 	{
-		output.push_back(Sum(getLastElement(), getLastElement()));
+		output.push_back(new Sum(getLastElement(), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "-")
 	{
-		output.push_back(Sum(Product( Number("-1"), getLastElement()), getLastElement()));
+		output.push_back(new Sum(new Product(new Number("-1"), getLastElement()), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "*")
 	{
-		output.push_back(Product(getLastElement(), getLastElement()));
+		output.push_back(new Product(getLastElement(), getLastElement()));
 
 		return true;
 	}
 	if (symbol == "/")
 	{
-		Term denominator = getLastElement();
-		Term numerator = getLastElement();
+		Term* denominator = getLastElement();
+		Term* numerator = getLastElement();
 
-		output.push_back(Product(numerator, Exponent(Number("-1"), denominator)));
+		output.push_back(new Product(numerator,new Exponent(new Number("-1"), denominator)));
 		return true;
 	}
 	if (symbol == "ln")
 	{
-		output.push_back(Logarithm(getLastElement()));
+		output.push_back(new Logarithm(getLastElement()));
 
 		return true;
 	}
 	if (symbol == "^")
 	{
-		Term exponent = getLastElement();
-		Term base = getLastElement();
-		output.push_back(Exponent(exponent, base));
+		Term* exponent = getLastElement();
+		Term* base = getLastElement();
+		output.push_back(new Exponent(exponent, base));
 
 		return true;
 	}
 	if (isFunction(symbol))
-	if (isFunction(symbol))
 	{
-		output.push_back(Function(symbol, getLastElement()));
+		output.push_back(new Function(symbol, getLastElement()));
 
 		return true;
 	}
@@ -329,20 +328,20 @@ bool Parser::createTerm(std::string symbol)
 	return false;
 }
 
-Term Parser::getLastElement()
+Term* Parser::getLastElement()
 {
 	if (output.empty())
 	{
 
 	}
 
-	Term out = output.back();
+	Term* out = output.back();
 	output.pop_back();
 
 	return out;
 }
 
-Term Parser::getTree()
+Term* Parser::getTree()
 {
 	if (output.size() == 0)
 	{

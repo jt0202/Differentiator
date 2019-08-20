@@ -1,15 +1,14 @@
 #include "Exponent.h"
 
-Exponent::Exponent(Term exponent, Term base)
+Exponent::Exponent(Term* exponent, Term* base)
 	: MathOperator(exponent, base)
 {
-	setDiff(std::bind(&Exponent::differentiate, *this, std::placeholders::_1));
-	setOutp(std::bind(&Exponent::output, *this));
+	
 }
 
 std::string Exponent::output()
 {
-	return "(" + arguments.at(BASE).output() + ")" + "^" + "(" + arguments.at(EXPONENT).output() + ")";
+	return "(" + arguments.at(BASE)->output() + ")" + "^" + "(" + arguments.at(EXPONENT)->output() + ")";
 }
 
 // Instead of using power rule or exponent rule as in school
@@ -18,11 +17,11 @@ std::string Exponent::output()
 // exp(u)' = exp(u), so only the argument has to be differentiated by the 
 // chain rule. This allows to differentiate terms like x^x and x^n and a^x
 // are special cases that appear after simplification. 
-Term Exponent::differentiate(char var)
+Term* Exponent::differentiate(char var)
 {
-	Product helpTerm(arguments.at(EXPONENT), Logarithm(arguments.at(BASE)));
+	Product* helpTerm = new Product(arguments.at(EXPONENT),  new Logarithm(arguments.at(BASE)));
 
-	Term differentiatedTerm = helpTerm.differentiate(var);
+	Term* differentiatedTerm = helpTerm->differentiate(var);
 
-	return Product(differentiatedTerm, *this);
+	return new Product(differentiatedTerm, this);
 }

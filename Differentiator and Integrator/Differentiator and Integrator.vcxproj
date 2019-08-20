@@ -116,6 +116,7 @@
     <ClInclude Include="Exponent.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="SmartPointerVector.h" />
     <ClInclude Include="Logarithm.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="LexerState.h" />

@@ -38,7 +38,7 @@ private:
 	std::string m_input;
 	std::vector<std::string> m_tokens;
 
-	std::vector<Term> output;
+	std::vector<Term*> output;
 
 	const std::vector<std::string> m_operators = {"+", "-", "*", "/", "^"};
 
@@ -56,11 +56,11 @@ private:
 
 	bool createTerm(std::string symbol);
 
-	Term getLastElement();
+	Term* getLastElement();
 public:
 	Parser(std::string i_input);
 
 	bool parse();
 
-	Term getTree();
+	Term* getTree();
 };
