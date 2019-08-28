@@ -23,10 +23,10 @@ Term* Variable::differentiate(char var)
 {
 	if (m_name == var)
 	{
-		return new Number("1");
+		return new Number(1,1);
 	}
 	else
 	{
-		return new Number("0");
+		return new Number(0,1);
 	}
 }

@@ -33,7 +33,14 @@ bool Parser::parse()
 		{
 		case NUMBER:
 			// push back number at output
-			output.push_back(new Number(token));
+			if (token.find('.') != std::string::npos)
+			{
+				output.push_back(makeFraction(token));
+			}
+			else
+			{
+				output.push_back(new Number(std::stoi(token)));
+			}
 			break;
 		case VARIABLE:
 			// push back variable at output
@@ -147,7 +154,7 @@ bool Parser::isNumber(std::string i_input)
 {
 	// It's a decimal number if two valid numbers are 
 	// seperated by a dot
-	int dotPos= i_input.find('.');
+	size_t dotPos= i_input.find('.');
 
 	bool isNumber = true;
 
@@ -286,7 +293,7 @@ bool Parser::createTerm(std::string symbol)
 	}
 	if (symbol == "-")
 	{
-		output.push_back(new Sum(new Product(new Number("-1"), getLastElement()), getLastElement()));
+		output.push_back(new Sum(new Product(new Number(-1,1), getLastElement()), getLastElement()));
 
 		return true;
 	}
@@ -301,7 +308,7 @@ bool Parser::createTerm(std::string symbol)
 		Term* denominator = getLastElement();
 		Term* numerator = getLastElement();
 
-		output.push_back(new Product(numerator,new Exponent(new Number("-1"), denominator)));
+		output.push_back(new Product(numerator,new Exponent(new Number(-1, 1), denominator)));
 		return true;
 	}
 	if (symbol == "ln")
@@ -349,4 +356,22 @@ Term* Parser::getTree()
 	}
 
 	return output.at(0);
+}
+
+// Takes a string that contains a number written with a decimal
+// point and turns it into a fraction. Thereby it escapes possible
+// inaccurarcies made by first converting it into a floating point number.
+Number* Parser::makeFraction(std::string i_input)
+{
+	size_t dotPosition = i_input.find('.');
+
+	// Determine the number of decimals.
+	int numberOfDecimals = i_input.substr(dotPosition+1).length();
+
+	// Remove the dot 258,42 == 25842/10^2
+	i_input.erase(dotPosition,1);
+
+	// Constructor simplifies fraction
+	return new Number(std::stoi(i_input), std::floor(std::pow(10, numberOfDecimals)));
+
 }

@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
 
 #include "Lexer.h"
 #include "Exponent.h"
@@ -57,6 +58,8 @@ private:
 	bool createTerm(std::string symbol);
 
 	Term* getLastElement();
+
+	Number* makeFraction(std::string i_input);
 public:
 	Parser(std::string i_input);
 
@@ -64,3 +67,4 @@ public:
 
 	Term* getTree();
 };
+

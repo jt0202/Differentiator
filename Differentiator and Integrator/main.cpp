@@ -4,6 +4,7 @@
 
 int main()
 {
+	
 	std::string input;
 	std::getline(std::cin, input);
 
@@ -24,7 +25,8 @@ int main()
 	{
 		std::cout << "Parsing failed." << std::endl;
 	}
-	
+
+
 	system("PAUSE");
 
 	return 0;
