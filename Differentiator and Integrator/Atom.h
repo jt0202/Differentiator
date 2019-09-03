@@ -7,7 +7,9 @@
 class Atom : public Term
 {
 public:
-	int degree();
+	//virtual int degree() = 0;
 
 	virtual std::string output() = 0;
+
+	Atom(TermType termtype);
 };

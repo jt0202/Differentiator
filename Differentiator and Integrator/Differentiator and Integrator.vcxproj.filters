@@ -128,5 +128,8 @@
     <ClCompile Include="XML\XmlObjectBase.cpp">
       <Filter>Quelldateien\XML</Filter>
     </ClCompile>
+    <ClCompile Include="Atom.cpp">
+      <Filter>Quelldateien\TermTree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

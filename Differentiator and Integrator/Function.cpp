@@ -13,7 +13,7 @@ void Function::obtainData(const DataType& ref)
 }
 
 Function::Function(std::string name, Term* argument)
-	:MathOperator(argument), XmlObject<std::string>("Function", "Function.xml")
+	:MathOperator(argument, TERMTYPE_FUN), XmlObject<std::string>("Function", "Function.xml")
 {
 	functionName = name;
 

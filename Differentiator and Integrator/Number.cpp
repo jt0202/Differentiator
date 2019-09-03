@@ -25,12 +25,14 @@ int euclid(int a, int b)
 }
 
 Number::Number(int value)
+	: Atom(TERMTYPE_NUM)
 {
 	denominator = value;
 	numerator = 1;
 }
 
 Number::Number(int denominator, int numerator)
+	: Atom(TERMTYPE_NUM)
 {
 	int divisor = euclid(denominator, numerator);
 
@@ -163,4 +165,5 @@ bool Number::isFraction()
 {
 	return numerator != 1;
 }
+
 

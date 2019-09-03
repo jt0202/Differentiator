@@ -1,13 +1,13 @@
 #include "Product.h"
 
 Product::Product(Term* factor1, Term* factor2)
-	: MathOperator(factor1, factor2)
+	: MathOperator(factor1, factor2, TERMTYPE_PROD)
 {
 
 }
 
 Product::Product(std::vector<Term*> terms)
-	: MathOperator(terms)
+	: MathOperator(terms, TERMTYPE_PROD)
 {
 
 }
@@ -15,7 +15,7 @@ Product::Product(std::vector<Term*> terms)
 std::string Product::output()
 {
 	std::string out;
-	if (getPrecedence(arguments.at(0)->getType()) < MultiplicationLevel)
+	if (getPrecedence(convertTermTypeToString(arguments.at(0)->getTermType())) < MultiplicationLevel)
 	{
 		out = "(" + arguments.at(0)->output() + ")";
 	}
@@ -26,8 +26,7 @@ std::string Product::output()
 
 	for (int i = 1; i < arguments.size(); i++)
 	{
-
-		if (getPrecedence(arguments.at(i)->getType()) < MultiplicationLevel)
+		if(getPrecedence(convertTermTypeToString(arguments.at(i)->getTermType())) < MultiplicationLevel)
 		{
 			out += "\*(" + arguments.at(i)->output()+ ")";
 		}

@@ -130,6 +130,7 @@
     <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Atom.cpp" />
     <ClCompile Include="Exponent.cpp" />
     <ClCompile Include="Fraction.cpp" />
     <ClCompile Include="Function.cpp" />

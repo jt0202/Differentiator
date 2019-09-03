@@ -2,15 +2,13 @@
 #include "Sum.h"
 
 Sum::Sum(Term* summand1, Term* summand2)
-	: MathOperator(summand1, summand2)
+	: MathOperator(summand1, summand2, TERMTYPE_SUM)
 {
-	type = "+";
 }
 
 Sum::Sum(std::vector<Term*> terms)
-	:MathOperator(terms)
+	:MathOperator(terms, TERMTYPE_SUM)
 {
-	type = "+";
 }
 
 Term* Sum::differentiate(char variable)

@@ -2,7 +2,21 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <stdexcept>
 #include "SmartPointerVector.h"
+
+
+enum TermType
+{
+	TERMTYPE_EXP,
+	TERMTYPE_FUN,
+	TERMTYPE_LOG,
+	TERMTYPE_NUM,
+	TERMTYPE_PROD,
+	TERMTYPE_SUM,
+	TERMTYPE_VAR,
+	TERMTYPE_NONE
+};
 
 // This class represents the terms that compose the equation,
 // like sums, trigonometric functions or variables. They build
@@ -19,8 +33,7 @@ protected:
 	// sums or products may have infinite number of arguments.
 	//int maxArguments;
 
-	std::string type;
-
+	const TermType m_termtype;
 
 public:
 	virtual Term* differentiate(char variable) = 0;
@@ -29,7 +42,11 @@ public:
 
 	virtual std::string output() = 0;
 
-	std::string getType();
-
 	SmartPointerVector<Term> getArguments();
+
+	TermType getTermType();
+
+	Term(TermType termtype);
 };
+
+std::string convertTermTypeToString(TermType termtype);

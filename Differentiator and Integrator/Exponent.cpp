@@ -1,7 +1,7 @@
 #include "Exponent.h"
 
 Exponent::Exponent(Term* exponent, Term* base)
-	: MathOperator(exponent, base)
+	: MathOperator(exponent, base, TERMTYPE_EXP)
 {
 	
 }

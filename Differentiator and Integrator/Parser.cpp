@@ -31,7 +31,7 @@ bool Parser::parse()
 
 		switch (getType(token))
 		{
-		case NUMBER:
+		case TOKENTYPE_NUMBER:
 			// push back number at output
 			if (token.find('.') != std::string::npos)
 			{
@@ -42,20 +42,20 @@ bool Parser::parse()
 				output.push_back(new Number(std::stoi(token)));
 			}
 			break;
-		case VARIABLE:
+		case TOKENTYPE_VARIABLE:
 			// push back variable at output
 			// token.front converts this 1 length string 
 			// to a char to fulfill the requirements
 			output.push_back(new Variable(token.front()));
 			break;
-		case FUNCTION:
+		case TOKENTYPE_FUNCTION:
 			functionStack.push(token);
 			break;
-		case COMMA:
+		case TOKENTYPE_COMMA:
 			// Not implemented
 			std::cout << "Functions with multiple arguments are not implemented." << std::endl;
 			return false;
-		case OPERATOR:
+		case TOKENTYPE_OPERATOR:
 			if (unaryOperator(i))
 			{
 				if (token == "+")
@@ -87,10 +87,10 @@ bool Parser::parse()
 			functionStack.push(token);
 
 			break;
-		case OPENBRACKET:
+		case TOKENTYPE_OPENBRACKET:
 			functionStack.push("(");
 			break;
-		case CLOSEDBRACKET:
+		case TOKENTYPE_CLOSEDBRACKET:
 
 			if (functionStack.empty())
 			{
@@ -121,7 +121,7 @@ bool Parser::parse()
 				functionStack.pop();
 			}
 			break;
-		case UNKNOWN:
+		case TOKENTYPE_UNKNOWN:
 			// Error.
 			// Stop the whole parsing
 			std::cout << "Unknown token. Parsing stopped" << std::endl;
@@ -192,22 +192,22 @@ TokenType Parser::getType(std::string token)
 {
 	if (isNumber(token))
 	{
-		return NUMBER;
+		return TOKENTYPE_NUMBER;
 	}
 
 	if (isOperator(token))
 	{
-		return OPERATOR;
+		return TOKENTYPE_OPERATOR;
 	}
 
 	if (token == "(")
 	{
-		return OPENBRACKET;
+		return TOKENTYPE_OPENBRACKET;
 	}
 
 	if (token == ")")
 	{
-		return CLOSEDBRACKET;
+		return TOKENTYPE_CLOSEDBRACKET;
 	}
 
 	// Just one letter variables for simplicity so that it doesn't get confused with
@@ -215,14 +215,14 @@ TokenType Parser::getType(std::string token)
 	// But since there are 26 of those avaible that should be sufficient.
 	if (token.size() == 1)
 	{
-		return VARIABLE;
+		return TOKENTYPE_VARIABLE;
 	}
 
 	if (isFunction(token))
 	{
-		return FUNCTION;
+		return TOKENTYPE_FUNCTION;
 	}
-	return UNKNOWN;
+	return TOKENTYPE_UNKNOWN;
 }
 
 // This functions determines whether a + or - is
