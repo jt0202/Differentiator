@@ -2,6 +2,7 @@
 #include "Atom.h"
 #include <string>
 #include <cmath>
+#include <stdexcept>
 
 // This class represents rational numbers and their operations.
 // Irrational numbers only occur as constants such as pi 

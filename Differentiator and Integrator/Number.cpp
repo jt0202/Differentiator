@@ -83,36 +83,52 @@ Term* Number::multiply(std::vector<Number*> factors)
 // be irrational (e.g. sqrt(2)= 2^(1/2)) it returns a nullptr.
 Term* Number::exponentiate(Number* exponent)
 {
+	if (exponent->getDenominator() == 0 && this->getDenominator() == 0)
+	{
+		throw std::invalid_argument("0^0 is not defined.");
+	}
+
+	int denominator = getDenominator();
+	int numerator = getNumerator();
+	int exp_denom = exponent->getDenominator();
+
+	// If the exponent is negative swap denominator and numerator and calculate with positive exponent on
+	if (exp_denom < 0)
+	{
+		int tmp = denominator;
+		denominator = numerator;
+		numerator = tmp;
+		exp_denom = -exp_denom;
+	}
+
 	if (exponent->isFraction())
 	{
 		// Test if both the numerator and the denominator are perfect 
 		// k powers with k being the numerator of the exponent.
-		double t = std::pow(denominator,(double) 1 / exponent->getNumerator());
+		int o_denominator = std::lround(std::pow(denominator, (double)1 / exponent->getNumerator()));
 
-		int o_denominator = std::floor(t);
-
-		if (std::floor(std::pow(o_denominator, exponent->getNumerator())) != denominator)
-		{
-			return nullptr;
-		}
-		else
+		if (std::lround(std::pow(o_denominator, exponent->getNumerator())) == denominator)
 		{
 			// Casting to double so that 1/exponent->getNumerator won't get rounded to an int.
-			int o_numerator = std::floor(std::pow(numerator, (double) 1 / exponent->getNumerator()));
+			int o_numerator = std::lround(std::pow(numerator, (double)1 / exponent->getNumerator()));
 
-			if (std::floor(std::pow(o_numerator, exponent->getNumerator())) != numerator)
+			if (std::lround(std::pow(o_denominator, exponent->getNumerator())) == numerator)
 			{
-				return nullptr;
+				return new Number(std::lround(std::pow(o_denominator, exp_denom)), std::lround(std::pow(o_numerator, exp_denom)));
 			}
 			else
 			{
-				return new Number(std::pow(o_denominator, exponent->getDenominator()), std::pow(o_numerator, exponent->getDenominator()));
+				return nullptr;
 			}
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 	else
 	{
-		return new Number(std::pow(denominator, exponent->getDenominator()), std::pow(numerator, exponent->getDenominator()));
+		return new Number(std::lround(std::pow(denominator,exp_denom)), std::lround(std::pow(numerator, exp_denom)));
 	}
 }
 

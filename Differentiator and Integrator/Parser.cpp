@@ -243,10 +243,12 @@ bool Parser::unaryOperator(int pos)
 		return true;
 	}
 
-	if (m_tokens.at(pos - 1) == "(" || isOperator(m_tokens.at(pos - 1)))
+	if (m_tokens.at((size_t)pos - 1) == "(" || isOperator(m_tokens.at((size_t)pos - 1)))
 	{
 		return true;
 	}
+
+	return true;
 }
 
 bool Parser::isOperator(std::string i_operator)
@@ -366,12 +368,12 @@ Number* Parser::makeFraction(std::string i_input)
 	size_t dotPosition = i_input.find('.');
 
 	// Determine the number of decimals.
-	int numberOfDecimals = i_input.substr(dotPosition+1).length();
+	size_t numberOfDecimals = i_input.substr(dotPosition+1).length();
 
 	// Remove the dot 258,42 == 25842/10^2
 	i_input.erase(dotPosition,1);
 
 	// Constructor simplifies fraction
-	return new Number(std::stoi(i_input), std::floor(std::pow(10, numberOfDecimals)));
+	return new Number(std::stoi(i_input), std::lround(std::pow(10, numberOfDecimals)));
 
 }
