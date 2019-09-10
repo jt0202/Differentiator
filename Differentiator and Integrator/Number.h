@@ -38,6 +38,8 @@ public:
 	int getNumerator();
 
 	bool isFraction();
+
+	bool equals(Term* t);
 };
 
 int euclid(int a, int b);

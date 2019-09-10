@@ -26,6 +26,8 @@ public:
 
 	std::string getFunctionName();
 
+	bool equals(Term* t);
+
 };
 
 namespace functionMemberName 

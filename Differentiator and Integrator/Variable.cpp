@@ -30,3 +30,14 @@ Term* Variable::differentiate(char var)
 		return new Number(0,1);
 	}
 }
+
+bool Variable::equals(Term* t)
+{
+	if (t->getTermType() == TERMTYPE_VAR)
+	{
+		Variable* var = dynamic_cast<Variable*>(t);
+
+		return var->output() == output();
+	}
+	return false;
+}

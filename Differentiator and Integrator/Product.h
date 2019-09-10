@@ -2,6 +2,7 @@
 #include "Operator.h"
 #include "Precedence.h"
 #include "Sum.h"
+#include <map>
 
 class Product : public MathOperator
 {
@@ -13,4 +14,6 @@ public:
 	std::string output();
 
 	Term* differentiate(char variable);
+
+	Term* simplify(char mainvar);
 };

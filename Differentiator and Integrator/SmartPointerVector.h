@@ -27,6 +27,10 @@ public:
 	auto end() noexcept;
 
 	std::vector<std::shared_ptr<T>> getVector();
+
+	void replace(T* value, int pos);
+
+	void erase(int pos);
 };
 
 template<typename T>
@@ -63,4 +67,22 @@ template<typename T>
 std::vector<std::shared_ptr<T>> SmartPointerVector<T>::getVector()
 {
 	return vector;
+}
+
+template<typename T>
+void SmartPointerVector<T>::replace(T* value, int pos)
+{
+	if (pos < vector.size() && pos >= 0)
+	{
+		vector.at(pos).reset(T);
+	}
+}
+
+template<typename T>
+void SmartPointerVector<T>::erase(int pos)
+{
+	if (pos < vector.size() && pos >= 0)
+	{
+		vector.erase(vector.begin() + pos);
+	}
 }

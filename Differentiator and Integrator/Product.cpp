@@ -71,3 +71,44 @@ Term* Product::differentiate(char variable)
 
 	return new Sum(summands);
 }
+
+Term* Product::simplify(char mainvar)
+{
+	// Simplify all lower terms first.
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		arguments.push_back(arguments.at(i)->simplify(mainvar));
+	}
+
+	/*
+	std::vector<Term*> lowerTerms;
+	std::vector<int> products;
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		if (arguments.at(i)->getTermType() == TERMTYPE_PROD)
+		{
+			for (std::shared_ptr<Term> sp : arguments.at(i)->getArguments)
+			{
+				lowerTerms.push_back(sp.get());
+			}
+
+			products.push_back(i);
+		}
+	}
+
+	for (Term* t : lowerTerms)
+	{
+		arguments.push_back(t);
+	}
+
+	for (int i : products)
+	{
+		arguments.erase(i);
+	}
+
+	// Collect same terms
+	std::map<Term*, std::vector<Term*>> collector;
+
+	*/
+	return nullptr;
+}

@@ -26,7 +26,6 @@ int main()
 		std::cout << "Parsing failed." << std::endl;
 	}
 
-
 	system("PAUSE");
 
 	return 0;

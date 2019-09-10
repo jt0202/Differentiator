@@ -166,4 +166,17 @@ bool Number::isFraction()
 	return numerator != 1;
 }
 
+bool Number::equals(Term* t)
+{
+	if (t->getTermType() == TERMTYPE_NUM)
+	{
+		// Cast into number and compare denominator and numerator
+		Number* n = dynamic_cast<Number*>(t);
+
+		return (n->getDenominator() == getDenominator()) && (n->getNumerator() == getNumerator());
+	}
+
+	return false;
+}
+
 

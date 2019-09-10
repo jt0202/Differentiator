@@ -17,4 +17,6 @@ public:
 	Term* differentiate(char var);
 
 	std::string output();
+
+	bool equals(Term* t);
 };

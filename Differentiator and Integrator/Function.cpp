@@ -40,6 +40,18 @@ std::string Function::getFunctionName()
 	return functionName;
 }
 
+bool Function::equals(Term* t)
+{
+	if (t->getTermType() == TERMTYPE_FUN)
+	{
+		Function* f = dynamic_cast<Function*>(t);
+
+		return (functionName == f->getFunctionName()) && (arguments.at(0)->equals(f->getArguments().at(0)));
+	}
+
+	return false;
+}
+
 Term* Function::differentiate(char var)
 {
 	// For now the derivates of functions other than the logarithm are unknown

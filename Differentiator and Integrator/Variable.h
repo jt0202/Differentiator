@@ -13,4 +13,6 @@ public:
 	std::string output();
 
 	Term* differentiate(char var);
+
+	bool equals(Term* t);
 };

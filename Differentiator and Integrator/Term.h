@@ -3,6 +3,7 @@
 #include <string>
 #include <functional>
 #include <stdexcept>
+#include <set>
 #include "SmartPointerVector.h"
 
 
@@ -38,7 +39,7 @@ protected:
 public:
 	virtual Term* differentiate(char variable) = 0;
 
-	// virtual Term* evaluateSym() = 0;
+	virtual Term* simplify(char mainvar);
 
 	virtual std::string output() = 0;
 
@@ -47,6 +48,8 @@ public:
 	TermType getTermType();
 
 	Term(TermType termtype);
+
+	virtual bool equals(Term* t);
 };
 
 std::string convertTermTypeToString(TermType termtype);
