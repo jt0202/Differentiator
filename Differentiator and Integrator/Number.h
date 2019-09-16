@@ -23,23 +23,23 @@ public:
 
 	Number(int denominator, int numerator);
 
-	Term* add(std::vector<Number*> summands);
+	Number* add(std::vector<Number*> summands);
 
-	Term* multiply(std::vector<Number*> factors);
+	Number* multiply(std::vector<Number*> factors);
 
-	Term* exponentiate(Number* exponent);
+	Number* exponentiate(Number* exponent);
 
-	std::string output();
+	std::string output() const;
 
 	Term* differentiate(char var);
 
-	int getDenominator();
+	int getDenominator() const;
 
-	int getNumerator();
+	int getNumerator() const;
 
-	bool isFraction();
+	bool isFraction() const;
 
-	bool equals(Term* t);
+	bool equals(const Term* t) const;
 };
 
 int euclid(int a, int b);

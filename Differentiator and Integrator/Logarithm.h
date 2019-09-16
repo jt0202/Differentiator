@@ -10,5 +10,5 @@ public:
 	Logarithm(Term* term);
 
 	Term* differentiate(char var);
-	std::string output();
+	std::string output() const;
 };

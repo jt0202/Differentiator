@@ -10,9 +10,9 @@ private:
 public:
 	Variable(char i_name);
 
-	std::string output();
+	std::string output() const;
 
 	Term* differentiate(char var);
 
-	bool equals(Term* t);
+	bool equals(const Term* t);
 };

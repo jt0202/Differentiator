@@ -1,16 +1,61 @@
 #include "Term.h"
 
+// Replaces every argument by it's simplified variant(might be still the same sometimes).
+void Term::simplifySubTerms(char mainvar)
+{
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		arguments.replace(arguments.at(i)->simplify(mainvar), i);
+	}
+}
+
+// Replaces the arguments that have the same type as this object 
+// by their arguments.
+// Useful to turn sums or products of 2 summands/products into larger ones.
+// This allows that 1/x and x can cancel eachother out, which would be more difficult
+// if they would be in different branches of the tree.
+// Should not be used for other terms than sums or products
+void Term::combineSameTerms()
+{
+	std::vector<Term*> lowerTerms;
+	std::vector<int> termsToErase;
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		if (arguments.at(i)->getTermType() == this->getTermType())
+		{
+			for (std::shared_ptr<Term> sp : arguments.at(i)->getArguments())
+			{
+				lowerTerms.push_back(sp.get());
+			}
+
+			termsToErase.push_back(i);
+		}
+	}
+
+	for (Term* t : lowerTerms)
+	{
+		arguments.push_back(t);
+	}
+
+	// Deleted later instead of in for loop
+	// to not step over terms.
+	for (int i : termsToErase)
+	{
+		arguments.erase(i);
+	}
+}
+
 Term* Term::simplify(char mainvar)
 {
 	return this;
 }
 
-SmartPointerVector<Term> Term::getArguments()
+SmartPointerVector<Term> Term::getArguments() const
 {
 	return arguments;
 }
 
-TermType Term::getTermType()
+TermType Term::getTermType() const
 {
 	return m_termtype;
 }
@@ -21,7 +66,7 @@ Term::Term(TermType termtype)
 
 }
 
-bool Term::equals(Term* t)
+bool Term::equals(const Term* t) const
 {
 	// Easier to conditions to check first, but not sufficient.
 	if (getTermType() == t->getTermType() && arguments.size() == t->getArguments().size())

@@ -23,5 +23,5 @@ public:
 	// Only used for tinyXML.Don't use otherwise.
 	MathOperator();
 
-	virtual std::string output() = 0;
+	virtual std::string output() const = 0;
 };

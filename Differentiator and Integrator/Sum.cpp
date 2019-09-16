@@ -24,7 +24,7 @@ Term* Sum::differentiate(char variable)
 	return new Sum(summands);
 }
 
-std::string Sum::output()
+std::string Sum::output() const
 {
 	std::string out = arguments.at(0)->output();
 

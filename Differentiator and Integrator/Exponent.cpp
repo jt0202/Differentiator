@@ -6,16 +6,16 @@ Exponent::Exponent(Term* exponent, Term* base)
 	
 }
 
-std::string Exponent::output()
+std::string Exponent::output() const
 {
 	return "(" + arguments.at(BASE)->output() + ")" + "^" + "(" + arguments.at(EXPONENT)->output() + ")";
 }
 
-bool Exponent::equals(Term* t)
+bool Exponent::equals(const Term* t) const
 {
 	if (t->getTermType() == TERMTYPE_EXP)
 	{
-		Exponent* exp = dynamic_cast<Exponent*>(t);
+		const Exponent* exp = dynamic_cast<const Exponent*>(t);
 
 		return arguments.at(BASE)->equals(exp->getArguments().at(BASE))
 			&& arguments.at(EXPONENT)->equals(exp->getArguments().at(EXPONENT));

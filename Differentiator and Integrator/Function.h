@@ -20,13 +20,13 @@ public:
 
 	Term* differentiate(char var);
 
-	std::string output();
+	std::string output() const;
 
 	using Xml = XmlObject<std::string>;
 
 	std::string getFunctionName();
 
-	bool equals(Term* t);
+	bool equals(Term* t) const;
 
 };
 

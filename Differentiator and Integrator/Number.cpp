@@ -40,7 +40,7 @@ Number::Number(int denominator, int numerator)
 	this->numerator = numerator / divisor;
 }
 
-Term* Number::add(std::vector<Number*> summands)
+Number* Number::add(std::vector<Number*> summands)
 {
 	int numerator = getNumerator();
 	int denominator = getDenominator();
@@ -61,7 +61,7 @@ Term* Number::add(std::vector<Number*> summands)
 	return new Number(denominator, numerator);
 }
 
-Term* Number::multiply(std::vector<Number*> factors)
+Number* Number::multiply(std::vector<Number*> factors)
 {
 	int numerator = getNumerator();
 	int denominator = getDenominator();
@@ -83,7 +83,7 @@ Term* Number::multiply(std::vector<Number*> factors)
 // Returns a number if the exponent is an integer or
 // if the result is a rational number. If the result would 
 // be irrational (e.g. sqrt(2)= 2^(1/2)) it returns a nullptr.
-Term* Number::exponentiate(Number* exponent)
+Number* Number::exponentiate(Number* exponent)
 {
 	if (exponent->getDenominator() == 0 && this->getDenominator() == 0)
 	{
@@ -134,7 +134,7 @@ Term* Number::exponentiate(Number* exponent)
 	}
 }
 
-std::string Number::output()
+std::string Number::output() const
 {
 	if (isFraction())
 	{
@@ -151,27 +151,27 @@ Term* Number::differentiate(char var)
 	return new Number(0);
 }
 
-int Number::getDenominator()
+int Number::getDenominator() const
 {
 	return denominator;
 }
 
-int Number::getNumerator()
+int Number::getNumerator() const
 {
 	return numerator;
 }
 
-bool Number::isFraction()
+bool Number::isFraction() const
 {
 	return numerator != 1;
 }
 
-bool Number::equals(Term* t)
+bool Number::equals(const Term* t) const 
 {
 	if (t->getTermType() == TERMTYPE_NUM)
 	{
 		// Cast into number and compare denominator and numerator
-		Number* n = dynamic_cast<Number*>(t);
+		const Number* n = dynamic_cast<const Number*>(t);
 
 		return (n->getDenominator() == getDenominator()) && (n->getNumerator() == getNumerator());
 	}

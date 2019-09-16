@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Parser.h"
+#include "Product.h"
 
 int main()
 {
@@ -16,15 +17,21 @@ int main()
 
 		std::cout << t->output() << std::endl;
 
-		Term* diff = t->differentiate('x');
+		/*Term* diff = t->differentiate('x');
 
 		std::cout << diff->output() << std::endl;
+
+		std::cout << diff->simplify('x')->output() << std::endl;*/
+
+		std::cout << t->simplify('x')->output() << std::endl;
 
 	}
 	else
 	{
 		std::cout << "Parsing failed." << std::endl;
 	}
+	
+
 
 	system("PAUSE");
 

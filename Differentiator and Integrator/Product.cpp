@@ -12,7 +12,7 @@ Product::Product(std::vector<Term*> terms)
 
 }
 
-std::string Product::output()
+std::string Product::output() const
 {
 	std::string out;
 	if (getPrecedence(convertTermTypeToString(arguments.at(0)->getTermType())) < MultiplicationLevel)
@@ -37,8 +37,6 @@ std::string Product::output()
 	}
 
 	return out;
-
-	std::string a;
 }
 
 Term* Product::differentiate(char variable)
@@ -74,41 +72,129 @@ Term* Product::differentiate(char variable)
 
 Term* Product::simplify(char mainvar)
 {
-	// Simplify all lower terms first.
-	for (int i = 0; i < arguments.size(); i++)
-	{
-		arguments.push_back(arguments.at(i)->simplify(mainvar));
-	}
+	simplifySubTerms(mainvar);
+	
+	combineSameTerms();
 
-	/*
-	std::vector<Term*> lowerTerms;
-	std::vector<int> products;
+	// At a position i bases holds the base of a factor and exponents the to this base
+	// belonging exponent. By this I want to collect the exponents if they appear multiple times in 
+	// a product(e.g. x^2 * x^3 leads to x in bases and {2,3} in exponents at position 1
+	// I first thought about an associative container but I need a better criteria than pointer equality
+	// to determine equality( the equals method in term). std::map demands some kind of order, which I 
+	// couldn't think of and for std::unordered_map I would need a custom hash function, which was equally 
+	// difficult.
+
+	std::vector<Term*> bases;
+	std::vector<std::vector<Term*>> exponents;
+
+	std::vector<Number*> numbers;
+	
+	// Filling the vectors.
 	for (int i = 0; i < arguments.size(); i++)
 	{
-		if (arguments.at(i)->getTermType() == TERMTYPE_PROD)
+		if (bases.size() != exponents.size())
 		{
-			for (std::shared_ptr<Term> sp : arguments.at(i)->getArguments)
+			throw std::out_of_range("Each base should have an exponent.");
+		}
+
+		if (arguments.at(i)->getTermType() == TERMTYPE_EXP)
+		{
+			collectTerms(bases, exponents, arguments.at(i)->getArguments().at(BASE), arguments.at(i)->getArguments().at(EXPONENT));
+		}
+		else
+		{
+			if (arguments.at(i)->getTermType() == TERMTYPE_NUM)
 			{
-				lowerTerms.push_back(sp.get());
+				numbers.push_back(dynamic_cast<Number*>(arguments.at(i)));
+				continue;
 			}
 
-			products.push_back(i);
+			collectTerms(bases, exponents, arguments.at(i), new Number(1));
+		}
+	}
+	std::vector<Term*> o_arguments;
+
+	// Convert vectors back into term tree
+	for (int i = 0; i < bases.size(); i++)
+	{
+		Term* t = new Exponent(new Sum(exponents.at(i)), bases.at(i));
+
+		// Simplification deals with exponent 1 and combines them.
+
+		Term* simplified = t->simplify(mainvar);
+
+		// If the simplification leads to a number, it gets processed later.
+		if (simplified->getTermType() == TERMTYPE_NUM)
+		{
+			Number* n = dynamic_cast<Number*>(simplified);
+
+			// It's a 1
+			if (n->getDenominator() == n->getNumerator())
+			{
+				continue;
+			}
+
+			numbers.push_back(n);
+			continue;
+		}
+
+		o_arguments.push_back(simplified);
+	}
+
+	if (numbers.size() > 1)
+	{
+		Number* start = numbers.front();
+
+		numbers.erase(numbers.begin());
+
+		Number* num = start->multiply(numbers);
+
+		// Zero leads to making the whole term zero.
+		if (num->getDenominator() == 0)
+		{
+			return new Number(0);
+		}
+		else
+		{
+			// If all numbers not a 1, add them to the new product.
+			if (num->getDenominator() != num->getNumerator())
+			{
+				o_arguments.push_back(num);
+			}
+		}
+
+	}
+	if (o_arguments.size() > 0)
+	{
+		// A product of just one term isn't really a product.
+		if (o_arguments.size() == 1)
+		{
+			return o_arguments.at(0);
+		}
+
+		return new Product(o_arguments);
+	}
+	else
+	{
+		// Everything cancelled each other out. There return the identity of multiplication
+		return new Number(1);
+	}
+}
+
+// This is a helper function for the simplifcation. If the base is already present it adds the newExponent to the current ones,
+// otherwise it pushs both at the end.
+void collectTerms(std::vector<Term*>& bases, std::vector<std::vector<Term*>>& exponents, Term* newBase, Term* newExponent)
+{
+	for (int i = 0; i < bases.size(); i++)
+	{
+		if (bases.at(i)->equals(newBase))
+		{
+			exponents.at(i).push_back(newExponent);
+
+			return;
 		}
 	}
 
-	for (Term* t : lowerTerms)
-	{
-		arguments.push_back(t);
-	}
-
-	for (int i : products)
-	{
-		arguments.erase(i);
-	}
-
-	// Collect same terms
-	std::map<Term*, std::vector<Term*>> collector;
-
-	*/
-	return nullptr;
+	bases.push_back(newBase);
+	exponents.push_back(std::vector<Term*>{newExponent});
 }

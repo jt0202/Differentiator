@@ -30,7 +30,7 @@ Function::Function()
 	setObtainDataFunction(std::bind(&Function::obtainData, *this, std::placeholders::_1));
 }
 
-std::string Function::output()
+std::string Function::output() const
 {
 	return functionName + "(" + arguments.at(0)->output() + ")";
 }
@@ -40,7 +40,7 @@ std::string Function::getFunctionName()
 	return functionName;
 }
 
-bool Function::equals(Term* t)
+bool Function::equals(Term* t) const
 {
 	if (t->getTermType() == TERMTYPE_FUN)
 	{

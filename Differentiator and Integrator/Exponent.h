@@ -3,20 +3,22 @@
 #include "Product.h"
 #include "Logarithm.h"
 
+enum
+{
+	EXPONENT = 0,
+	BASE = 1
+};
+
 class Exponent : public MathOperator
 {
 private:
-	enum 
-	{
-		EXPONENT = 0, 
-		BASE = 1
-	};
+	
 public:
 	Exponent(Term* exponent, Term* base);
 
 	Term* differentiate(char var);
 
-	std::string output();
+	std::string output() const;
 
-	bool equals(Term* t);
+	bool equals(const Term* t) const;
 };

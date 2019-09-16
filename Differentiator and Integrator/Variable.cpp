@@ -6,7 +6,7 @@ Variable::Variable(char i_name)
 
 }
 
-std::string Variable::output()
+std::string Variable::output() const
 {
 	std::stringstream stream;
 
@@ -31,11 +31,11 @@ Term* Variable::differentiate(char var)
 	}
 }
 
-bool Variable::equals(Term* t)
+bool Variable::equals(const Term* t)
 {
 	if (t->getTermType() == TERMTYPE_VAR)
 	{
-		Variable* var = dynamic_cast<Variable*>(t);
+		const Variable* var = dynamic_cast<const Variable*>(t);
 
 		return var->output() == output();
 	}

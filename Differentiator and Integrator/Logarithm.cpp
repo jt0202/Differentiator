@@ -6,7 +6,7 @@ Logarithm::Logarithm(Term* term)
 	
 }
 
-std::string Logarithm::output()
+std::string Logarithm::output() const
 {
 	return "ln(" + arguments.at(0)->output() +")";
 }

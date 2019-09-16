@@ -36,20 +36,26 @@ protected:
 
 	const TermType m_termtype;
 
+	void simplifySubTerms(char mainvar);
+
+	void combineSameTerms();
+
 public:
 	virtual Term* differentiate(char variable) = 0;
 
 	virtual Term* simplify(char mainvar);
 
-	virtual std::string output() = 0;
+	virtual std::string output() const = 0;
 
-	SmartPointerVector<Term> getArguments();
+	SmartPointerVector<Term> getArguments() const;
 
-	TermType getTermType();
+	TermType getTermType() const;
 
 	Term(TermType termtype);
 
-	virtual bool equals(Term* t);
+	virtual bool equals(const Term* t) const;
+
+	Term() = delete;
 };
 
 std::string convertTermTypeToString(TermType termtype);

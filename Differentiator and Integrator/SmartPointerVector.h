@@ -16,17 +16,17 @@ private:
 	std::vector<std::shared_ptr<T>> vector;
 
 public:
-	T* at(size_t pos);
+	T* at(size_t pos) const;
 
 	void push_back(T* value);
 
-	size_t size();
+	size_t size() const;
 
-	auto begin() noexcept;
+	auto begin() const;
 
-	auto end() noexcept;
+	auto end() const;
 
-	std::vector<std::shared_ptr<T>> getVector();
+	std::vector<std::shared_ptr<T>> getVector() const;
 
 	void replace(T* value, int pos);
 
@@ -34,7 +34,7 @@ public:
 };
 
 template<typename T>
-T* SmartPointerVector<T>::at(size_t pos)
+T* SmartPointerVector<T>::at(size_t pos) const
 {
 	return vector.at(pos).get();
 }
@@ -46,25 +46,25 @@ void SmartPointerVector<T>::push_back(T* value)
 }
 
 template<typename T>
-size_t SmartPointerVector<T>::size()
+size_t SmartPointerVector<T>::size() const
 {
 	return vector.size();
 }
 
 template<typename T>
-auto SmartPointerVector<T>::begin() noexcept
+auto SmartPointerVector<T>::begin() const
 {
 	return vector.begin();
 }
 
 template<typename T>
-auto SmartPointerVector<T>::end() noexcept
+auto SmartPointerVector<T>::end() const
 {
 	return vector.end();
 }
 
 template<typename T>
-std::vector<std::shared_ptr<T>> SmartPointerVector<T>::getVector()
+std::vector<std::shared_ptr<T>> SmartPointerVector<T>::getVector() const
 {
 	return vector;
 }
@@ -74,7 +74,12 @@ void SmartPointerVector<T>::replace(T* value, int pos)
 {
 	if (pos < vector.size() && pos >= 0)
 	{
-		vector.at(pos).reset(T);
+		if (vector[pos].get() == value)
+		{
+			return;
+		}
+
+		vector[pos].reset(value);
 	}
 }
 
