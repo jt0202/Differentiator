@@ -72,9 +72,9 @@ Term* Product::differentiate(char variable)
 
 Term* Product::simplify(char mainvar)
 {
-	simplifySubTerms(mainvar);
+	std::vector<Term*> arguments = simplifySubTerms(mainvar);
 	
-	combineSameTerms();
+	combineSameTerms(arguments);
 
 	// At a position i bases holds the base of a factor and exponents the to this base
 	// belonging exponent. By this I want to collect the exponents if they appear multiple times in 
@@ -141,7 +141,7 @@ Term* Product::simplify(char mainvar)
 		o_arguments.push_back(simplified);
 	}
 
-	if (numbers.size() > 1)
+	if (numbers.size() >= 1)
 	{
 		Number* start = numbers.front();
 

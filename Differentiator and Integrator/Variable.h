@@ -15,4 +15,6 @@ public:
 	Term* differentiate(char var);
 
 	bool equals(const Term* t);
+
+	bool containsVar(char var) const override;
 };

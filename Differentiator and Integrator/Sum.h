@@ -1,5 +1,6 @@
 #pragma once
 #include "Operator.h"
+#include "Number.h"
 #include <vector>
 
 class Sum : public MathOperator
@@ -14,4 +15,6 @@ public:
 	Term* differentiate(char variable);
 
 	std::string output() const;
+
+	Term* simplify(char mainvar) override;
 };

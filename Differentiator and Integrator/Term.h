@@ -36,9 +36,9 @@ protected:
 
 	const TermType m_termtype;
 
-	void simplifySubTerms(char mainvar);
+	std::vector<Term*> simplifySubTerms(char mainvar);
 
-	void combineSameTerms();
+	void combineSameTerms(std::vector<Term*>& arguments);
 
 public:
 	virtual Term* differentiate(char variable) = 0;
@@ -56,6 +56,8 @@ public:
 	virtual bool equals(const Term* t) const;
 
 	Term() = delete;
+
+	virtual bool containsVar(char var) const;
 };
 
 std::string convertTermTypeToString(TermType termtype);

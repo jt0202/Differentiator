@@ -41,3 +41,8 @@ bool Variable::equals(const Term* t)
 	}
 	return false;
 }
+
+bool Variable::containsVar(char var) const
+{
+	return m_name == var;
+}

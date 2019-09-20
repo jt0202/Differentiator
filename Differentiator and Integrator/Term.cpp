@@ -1,12 +1,16 @@
 #include "Term.h"
 
 // Replaces every argument by it's simplified variant(might be still the same sometimes).
-void Term::simplifySubTerms(char mainvar)
+std::vector<Term*> Term::simplifySubTerms(char mainvar)
 {
+	std::vector<Term*> simplifiedArguments;
+
 	for (int i = 0; i < arguments.size(); i++)
 	{
-		arguments.replace(arguments.at(i)->simplify(mainvar), i);
+		simplifiedArguments.push_back(arguments.at(i)->simplify(mainvar));
 	}
+
+	return simplifiedArguments;
 }
 
 // Replaces the arguments that have the same type as this object 
@@ -15,7 +19,7 @@ void Term::simplifySubTerms(char mainvar)
 // This allows that 1/x and x can cancel eachother out, which would be more difficult
 // if they would be in different branches of the tree.
 // Should not be used for other terms than sums or products
-void Term::combineSameTerms()
+void Term::combineSameTerms(std::vector<Term*>& arguments)
 {
 	std::vector<Term*> lowerTerms;
 	std::vector<int> termsToErase;
@@ -41,7 +45,8 @@ void Term::combineSameTerms()
 	// to not step over terms.
 	for (int i : termsToErase)
 	{
-		arguments.erase(i);
+		//arguments.erase(i);
+		arguments.erase(arguments.begin() + i);
 	}
 }
 
@@ -105,6 +110,18 @@ bool Term::equals(const Term* t) const
 	}
 	
 	return false;
+}
+
+bool Term::containsVar(char var) const
+{
+	bool result = false;
+
+	for (int i = 0; i < arguments.size(); i++)
+	{
+		result = result || arguments.at(i)->containsVar(var);
+	}
+
+	return result;
 }
 
 std::string convertTermTypeToString(TermType termtype)
