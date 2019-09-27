@@ -16,9 +16,13 @@ private:
 public:
 	Exponent(Term* exponent, Term* base);
 
-	Term* differentiate(char var);
+	Term* differentiate(char var) override;
 
-	std::string output() const;
+	std::string output() const override;
 
-	bool equals(const Term* t) const;
+	bool equals(const Term* t) const override;
+
+	Term* simplify(char mainvar) override;
+
+	Exponent() = delete;
 };

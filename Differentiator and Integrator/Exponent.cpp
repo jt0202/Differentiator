@@ -38,3 +38,40 @@ Term* Exponent::differentiate(char var)
 
 	return new Product(differentiatedTerm, this);
 }
+
+// Simplifaction for now mainly occurs for numbers since the
+// simplification rules have requirements that are difficult to 
+// check for other terms.
+Term* Exponent::simplify(char mainvar)
+{
+	
+	std::vector<Term*> arguments = simplifySubTerms(mainvar);
+
+	if (arguments.at(EXPONENT)->getTermType() == TERMTYPE_NUM)
+	{
+		Number* n = dynamic_cast<Number*>(arguments.at(EXPONENT));
+
+		if (n->getDenominator() == n->getNumerator())
+		{
+			return arguments.at(BASE);
+		}
+		if (n->getDenominator() == 0)
+		{
+			return new Number(0);
+		}
+		if (arguments.at(BASE)->getTermType() == TERMTYPE_NUM)
+		{
+			Number* base = dynamic_cast<Number*>(arguments.at(BASE));
+
+			Number* result = base->exponentiate(n);
+
+			if (result != nullptr)
+			{
+				return result;
+			}
+		}
+
+	}
+
+	return this;
+}

@@ -159,7 +159,8 @@ Term* Product::simplify(char mainvar)
 			// If all numbers not a 1, add them to the new product.
 			if (num->getDenominator() != num->getNumerator())
 			{
-				o_arguments.push_back(num);
+				// mainly for aesthetical reasons. 2*x looks more familar than x*2
+				o_arguments.insert(o_arguments.begin(), num);
 			}
 		}
 

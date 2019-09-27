@@ -20,6 +20,25 @@ namespace SumHelp
 		summands.push_back(summand);
 		factors.push_back(std::vector<Term*>{factor});
 	}
+
+	Term* productCreater(std::vector<Term*> factors)
+	{
+		if (factors.size() > 1)
+		{
+			return new Product(factors);
+		}
+		else
+		{
+			if (factors.size() == 1)
+			{
+				return factors.at(0);
+			}
+			else
+			{
+				return new Number(1);
+			}
+		}
+	}
 }
 
 Sum::Sum(Term* summand1, Term* summand2)
@@ -62,6 +81,8 @@ Term* Sum::simplify(char mainvar)
 	std::vector<Term*> arguments = simplifySubTerms(mainvar);
 
 	combineSameTerms(arguments);
+	
+	// Very similar to simplification of products. Look there for more details. 
 
 	std::vector<Term*> summands;
 	std::vector<std::vector<Term*>> factors;
@@ -71,8 +92,13 @@ Term* Sum::simplify(char mainvar)
 	{
 		if (arguments.at(i)->getTermType() == TERMTYPE_PROD)
 		{			
-			std::vector<Term*> containsVar;
-			std::vector<Term*> containsNotVar;
+			// Every factor that contains mainvar.
+			std::vector<Term*> mainVariable;
+			// All other factors that aren't numbers.
+			std::vector<Term*> otherTerms;
+			// Numbers are kept seperately. If no mainvar occurs
+			// then the otherTerms are getting collected.
+			std::vector<Term*> productNumbers;
 
 			for (int j = 0; j < arguments.at(i)->getArguments().size(); j++)
 			{
@@ -80,27 +106,37 @@ Term* Sum::simplify(char mainvar)
 
 				if (currentFactor->containsVar(mainvar))
 				{
-					containsVar.push_back(currentFactor);
+					mainVariable.push_back(currentFactor);
 				}
 				else
 				{
-					containsNotVar.push_back(currentFactor);
+					if (currentFactor->getTermType() == TERMTYPE_NUM)
+					{
+						productNumbers.push_back(currentFactor);
+					}
+					else
+					{
+						otherTerms.push_back(currentFactor);
+					}
 				}
 			}
 
-			if (containsNotVar.size() > 0 && containsVar.size() > 0)
+			if (otherTerms.size() > 0 && mainVariable.size() > 0)
 			{
-				SumHelp::collectTerms(summands, factors, new Product(containsVar), new Product(containsNotVar));
+				otherTerms.insert(otherTerms.end(), productNumbers.begin(), productNumbers.end());
+				SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(otherTerms));
 			}
 			else
 			{
-				if (containsNotVar.size() == 0)
+				if (mainVariable.size() == 0)
 				{
-					SumHelp::collectTerms(summands, factors, new Product(containsVar), new Number(1));
+					SumHelp::collectTerms(summands, factors,SumHelp::productCreater(otherTerms),SumHelp::productCreater(productNumbers));
 				}
 				else
 				{
-					SumHelp::collectTerms(summands, factors, new Product(containsNotVar), new Number(1));
+					// otherTerms.size() == 0
+					SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(productNumbers));
+					
 				}
 			}
 		}

@@ -240,3 +240,12 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/LocMetricsPie.png
+/LocMetricsPie.jpg
+/LocMetricsFunctions.html
+/LocMetricsFunctions.csv
+/LocMetricsFolders.csv
+/LocMetricsFiles.csv
+/LocMetricsCommentWords.csv
+/LocMetrics.html
+/LocMetrics.css
