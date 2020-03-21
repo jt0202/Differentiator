@@ -1,4 +1,5 @@
 #include "Exponent.h"
+#include <iostream>
 
 Exponent::Exponent(Term* exponent, Term* base)
 	: MathOperator(exponent, base, TERMTYPE_EXP)
@@ -17,8 +18,12 @@ bool Exponent::equals(const Term* t) const
 	{
 		const Exponent* exp = dynamic_cast<const Exponent*>(t);
 
-		return arguments.at(BASE)->equals(exp->getArguments().at(BASE))
-			&& arguments.at(EXPONENT)->equals(exp->getArguments().at(EXPONENT));
+		std::cout << this->output() + "  vs  " + t->output() + "\n";
+
+		bool basesEqual = arguments.at(BASE)->equals(t->getArguments().at(BASE));
+		bool exponentEqual = arguments.at(EXPONENT)->equals(t->getArguments().at(EXPONENT));
+
+		return basesEqual && exponentEqual;
 	}
 
 	return false;

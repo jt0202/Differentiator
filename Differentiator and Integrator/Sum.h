@@ -2,6 +2,7 @@
 #include "Operator.h"
 #include "Number.h"
 #include <vector>
+#include <stdexcept>
 
 class Sum : public MathOperator
 {

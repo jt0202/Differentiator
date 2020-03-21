@@ -2,10 +2,12 @@
 #include "Sum.h"
 #include "Product.h"
 
-#include <iostream>
-
 namespace SumHelp
 {
+	// For each element in summands exists a vector in factors that represent a sum in such a way:
+	//		(factor_11+factor_12+....)*summand_1+(factor_21+factor_22+...)*summand_2+...
+	// It checks if there exists already an element in summands and if so adds factor to the corresponding vector.
+	// Else it creates for both a new entry
 	void collectTerms(std::vector<Term*>& summands, std::vector<std::vector<Term*>>& factors, Term* summand, Term* factor)
 	{
 		for (int i = 0; i < summands.size(); i++)
@@ -39,6 +41,61 @@ namespace SumHelp
 			}
 		}
 	}
+
+	// Disassembles a product that appears in a sum in 2 parts: one contains all the factors of that product that contain the mainvar
+	// and another part that contains the rest and adds these to the sum structure.
+	// If no mainvar is present one part only contains the numbers.
+	void productDisassembler(Term* product, char mainvar, std::vector<Term*>& summands, std::vector<std::vector<Term*>>& factors)
+	{
+		// Every factor that contains mainvar.
+		std::vector<Term*> mainVariable;
+		// All other factors that aren't numbers.
+		std::vector<Term*> otherTerms;
+		// Numbers are kept seperately. If no mainvar occurs
+		// then the otherTerms are getting collected.
+		std::vector<Term*> productNumbers;
+
+		// Go through the product and split it's factors into the 3 upper categories
+		for (int j = 0; j < product->getArguments().size(); j++)
+		{
+			Term* currentFactor = product->getArguments().at(j);
+
+			if (currentFactor->containsVar(mainvar))
+			{
+				mainVariable.push_back(currentFactor);
+			}
+			else
+			{
+				if (currentFactor->getTermType() == TERMTYPE_NUM)
+				{
+					productNumbers.push_back(currentFactor);
+				}
+				else
+				{
+					otherTerms.push_back(currentFactor);
+				}
+			}
+		}
+
+		if (otherTerms.size() > 0 && mainVariable.size() > 0)
+		{
+			otherTerms.insert(otherTerms.end(), productNumbers.begin(), productNumbers.end());
+			SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(otherTerms));
+		}
+		else
+		{
+			if (mainVariable.size() == 0)
+			{
+				SumHelp::collectTerms(summands, factors, SumHelp::productCreater(otherTerms), SumHelp::productCreater(productNumbers));
+			}
+			else
+			{
+				// otherTerms.size() == 0
+				SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(productNumbers));
+
+			}
+		}
+	}
 }
 
 Sum::Sum(Term* summand1, Term* summand2)
@@ -49,6 +106,13 @@ Sum::Sum(Term* summand1, Term* summand2)
 Sum::Sum(std::vector<Term*> terms)
 	:MathOperator(terms, TERMTYPE_SUM)
 {
+	// A sum with less than 2 summands might be possible mathematically,
+	// it isn't possible to parse and makes looking for identical terms
+	// in the simplification process more difficult.
+	if (terms.size() < 2)
+	{
+		throw new std::invalid_argument("Less than 2 summands");
+	}
 }
 
 Term* Sum::differentiate(char variable)
@@ -78,6 +142,11 @@ std::string Sum::output() const
 
 Term* Sum::simplify(char mainvar) 
 {
+	if (arguments.size() == 1)
+	{
+		return arguments.at(0);
+	}
+
 	std::vector<Term*> arguments = simplifySubTerms(mainvar);
 
 	combineSameTerms(arguments);
@@ -92,53 +161,7 @@ Term* Sum::simplify(char mainvar)
 	{
 		if (arguments.at(i)->getTermType() == TERMTYPE_PROD)
 		{			
-			// Every factor that contains mainvar.
-			std::vector<Term*> mainVariable;
-			// All other factors that aren't numbers.
-			std::vector<Term*> otherTerms;
-			// Numbers are kept seperately. If no mainvar occurs
-			// then the otherTerms are getting collected.
-			std::vector<Term*> productNumbers;
-
-			for (int j = 0; j < arguments.at(i)->getArguments().size(); j++)
-			{
-				Term* currentFactor = arguments.at(i)->getArguments().at(j);
-
-				if (currentFactor->containsVar(mainvar))
-				{
-					mainVariable.push_back(currentFactor);
-				}
-				else
-				{
-					if (currentFactor->getTermType() == TERMTYPE_NUM)
-					{
-						productNumbers.push_back(currentFactor);
-					}
-					else
-					{
-						otherTerms.push_back(currentFactor);
-					}
-				}
-			}
-
-			if (otherTerms.size() > 0 && mainVariable.size() > 0)
-			{
-				otherTerms.insert(otherTerms.end(), productNumbers.begin(), productNumbers.end());
-				SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(otherTerms));
-			}
-			else
-			{
-				if (mainVariable.size() == 0)
-				{
-					SumHelp::collectTerms(summands, factors,SumHelp::productCreater(otherTerms),SumHelp::productCreater(productNumbers));
-				}
-				else
-				{
-					// otherTerms.size() == 0
-					SumHelp::collectTerms(summands, factors, SumHelp::productCreater(mainVariable), SumHelp::productCreater(productNumbers));
-					
-				}
-			}
+			SumHelp::productDisassembler(arguments.at(i), mainvar, summands, factors);
 		}
 		else
 		{
@@ -155,11 +178,22 @@ Term* Sum::simplify(char mainvar)
 	}
 	std::vector<Term*> o_arguments;
 
+	// Rebuilt a sum from the split components
 	for (int i = 0; i < summands.size(); i++)
 	{
-		Term* t = new Product(new Sum(factors.at(i)), summands.at(i));
+		Term* t;
+		if (factors.at(i).size() > 1)
+		{
+			t = new Product(new Sum(factors.at(i)), summands.at(i));
+		}
+		else
+		{
+			t = new Product(factors.at(i).at(0), summands.at(i));
+		} 
+
 
 		Term* simplified = t->simplify(mainvar);
+
 
 		if (simplified->getTermType() == TERMTYPE_NUM)
 		{
@@ -176,7 +210,7 @@ Term* Sum::simplify(char mainvar)
 		o_arguments.push_back(simplified);
 	}
 
-
+	// If there are numbers present, add all together and add the result(if it's not 0) to the output.
 	if (numbers.size() > 0)
 	{
 		Number* n = numbers.front();
@@ -205,6 +239,3 @@ Term* Sum::simplify(char mainvar)
 		return new Number(0);
 	}
 }
-
-
-

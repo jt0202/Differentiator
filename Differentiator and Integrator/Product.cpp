@@ -117,7 +117,15 @@ Term* Product::simplify(char mainvar)
 	// Convert vectors back into term tree
 	for (int i = 0; i < bases.size(); i++)
 	{
-		Term* t = new Exponent(new Sum(exponents.at(i)), bases.at(i));
+		Term* t;
+		if (exponents.at(i).size() > 1)
+		{
+			t = new Exponent(new Sum(exponents.at(i)), bases.at(i));
+		}
+		else
+		{
+			t = new Exponent(exponents.at(i).at(0), bases.at(i));
+		}
 
 		// Simplification deals with exponent 1 and combines them.
 
